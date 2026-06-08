@@ -1,14 +1,12 @@
 {
-    "HeThongLoi": true,
+    "HeThong": true,
     "TuyenSinh": true,
     "HoSo": true,
     "TuVan": true,
     "HocBong": true,
     "NoiDung": true,
-    "BaoCao": true,
     "DaoTao": true,
     "SuKien": true,
     "HoiAI": true,
-    "CauHinh": true,
-    "HeThong": true
+    "CauHinh": true
 }
