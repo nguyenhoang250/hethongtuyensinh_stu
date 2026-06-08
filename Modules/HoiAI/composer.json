@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/hoiai",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\HoiAI\\": "app/",
+            "Modules\\HoiAI\\Database\\Factories\\": "database/factories/",
+            "Modules\\HoiAI\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\HoiAI\\Tests\\": "tests/"
+        }
+    }
+}

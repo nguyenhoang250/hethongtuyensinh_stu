@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/cauhinh",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\CauHinh\\": "app/",
+            "Modules\\CauHinh\\Database\\Factories\\": "database/factories/",
+            "Modules\\CauHinh\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\CauHinh\\Tests\\": "tests/"
+        }
+    }
+}

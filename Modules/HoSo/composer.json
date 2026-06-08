@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/hoso",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\HoSo\\": "app/",
+            "Modules\\HoSo\\Database\\Factories\\": "database/factories/",
+            "Modules\\HoSo\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\HoSo\\Tests\\": "tests/"
+        }
+    }
+}

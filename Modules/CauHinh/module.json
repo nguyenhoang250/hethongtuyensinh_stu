@@ -1,0 +1,11 @@
+{
+    "name": "CauHinh",
+    "alias": "cauhinh",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\CauHinh\\Providers\\CauHinhServiceProvider"
+    ],
+    "files": []
+}

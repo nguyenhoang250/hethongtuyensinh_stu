@@ -1,0 +1,996 @@
+﻿=== Modules/HeThong/app/Http/Controllers/HeThongController.php ===
+<?php
+
+namespace Modules\HeThong\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class HeThongController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return view('hethong::index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('hethong::create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request) {}
+
+    /**
+     * Show the specified resource.
+     */
+    public function show($id)
+    {
+        return view('hethong::show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        return view('hethong::edit');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id) {}
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id) {}
+}
+
+=== Modules/HeThong/app/Http/Controllers/Admin/AdminController.php ===
+<?php
+
+namespace Modules\HeThong\Http\Controllers\Admin;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
+use Modules\HeThong\Models\Admin;
+
+class AdminController extends Controller
+{
+    public function index()
+    {
+        $danhSach = Admin::latest()->paginate(20);
+        return view('hethong::admin.admin.index', compact('danhSach'));
+    }
+
+    public function create()
+    {
+        return view('hethong::admin.admin.form');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'ho_ten'        => 'required|string|max:100',
+            'email'         => 'required|email|max:150|unique:Admin,email',
+            'mat_khau'      => 'required|string|min:8',
+            'so_dien_thoai' => 'nullable|string|max:15',
+            'anh_dai_dien'  => 'nullable|url|max:500',
+        ]);
+
+        Admin::create([
+            'ho_ten'        => $request->ho_ten,
+            'email'         => $request->email,
+            'mat_khau'      => Hash::make($request->mat_khau),
+            'so_dien_thoai' => $request->so_dien_thoai,
+            'anh_dai_dien'  => $request->anh_dai_dien,
+            'trang_thai'    => 1,
+        ]);
+
+        return redirect()->route('admin.quan-ly.index')
+            ->with('success', 'Táº¡o tÃ i khoáº£n admin thÃ nh cÃ´ng!');
+    }
+
+    public function edit(Admin $admin)
+    {
+        return view('hethong::admin.admin.form', compact('admin'));
+    }
+
+    public function update(Request $request, Admin $admin): RedirectResponse
+    {
+        $request->validate([
+            'ho_ten'        => 'required|string|max:100',
+            'email'         => 'required|email|max:150|unique:Admin,email,' . $admin->id,
+            'so_dien_thoai' => 'nullable|string|max:15',
+            'anh_dai_dien'  => 'nullable|url|max:500',
+            'mat_khau'      => 'nullable|string|min:8',
+        ]);
+
+        $data = [
+            'ho_ten'        => $request->ho_ten,
+            'email'         => $request->email,
+            'so_dien_thoai' => $request->so_dien_thoai,
+            'anh_dai_dien'  => $request->anh_dai_dien,
+        ];
+
+        if ($request->filled('mat_khau')) {
+            $data['mat_khau'] = Hash::make($request->mat_khau);
+        }
+
+        $admin->update($data);
+
+        return redirect()->route('admin.quan-ly.index')
+            ->with('success', 'Cáº­p nháº­t tÃ i khoáº£n thÃ nh cÃ´ng!');
+    }
+
+    public function khoaTaiKhoan(Admin $admin): RedirectResponse
+    {
+        // KhÃ´ng cho khÃ³a chÃ­nh mÃ¬nh
+        if ($admin->id === auth('admin')->id()) {
+            return back()->withErrors(['error' => 'KhÃ´ng thá»ƒ khÃ³a tÃ i khoáº£n Ä‘ang Ä‘Äƒng nháº­p.']);
+        }
+
+        $admin->update(['trang_thai' => !$admin->trang_thai]);
+
+        $trangThai = $admin->trang_thai ? 'má»Ÿ khÃ³a' : 'khÃ³a';
+        return back()->with('success', "ÄÃ£ {$trangThai} tÃ i khoáº£n thÃ nh cÃ´ng!");
+    }
+
+    public function destroy(Admin $admin): RedirectResponse
+    {
+        if ($admin->id === auth('admin')->id()) {
+            return back()->withErrors(['error' => 'KhÃ´ng thá»ƒ xÃ³a tÃ i khoáº£n Ä‘ang Ä‘Äƒng nháº­p.']);
+        }
+
+        $admin->delete();
+
+        return redirect()->route('admin.quan-ly.index')
+            ->with('success', 'XÃ³a tÃ i khoáº£n thÃ nh cÃ´ng!');
+    }
+}
+=== Modules/HeThong/app/Http/Controllers/Admin/NhanVienTuVanController.php ===
+<?php
+
+namespace Modules\HeThong\Http\Controllers\Admin;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
+use Modules\HeThong\Models\NhanVienTuVan;
+
+class NhanVienTuVanController extends Controller
+{
+    public function index()
+    {
+        $danhSach = NhanVienTuVan::latest()->paginate(20);
+        return view('hethong::admin.nhan-vien-tu-van.index', compact('danhSach'));
+    }
+
+    public function create()
+    {
+        return view('hethong::admin.nhan-vien-tu-van.form');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'ma_nhan_vien'  => 'required|string|max:20|unique:NhanVienTuVan,ma_nhan_vien',
+            'email'         => 'required|email|max:150|unique:NhanVienTuVan,email',
+            'mat_khau'      => 'required|string|min:8',
+            'phong_ban'     => 'required|string|max:100',
+            'chuyen_mon'    => 'nullable|string|max:200',
+        ], [
+            'email.unique'       => 'Email nÃ y Ä‘Ã£ Ä‘Æ°á»£c sá»­ dá»¥ng.',
+            'ma_nhan_vien.unique'=> 'MÃ£ nhÃ¢n viÃªn Ä‘Ã£ tá»“n táº¡i.',
+            'mat_khau.min'       => 'Máº­t kháº©u tá»‘i thiá»ƒu 8 kÃ½ tá»±.',
+        ]);
+
+        NhanVienTuVan::create([
+            'ma_nhan_vien'  => $request->ma_nhan_vien,
+            'email'         => $request->email,
+            'mat_khau'      => Hash::make($request->mat_khau),
+            'phong_ban'     => $request->phong_ban,
+            'chuyen_mon'    => $request->chuyen_mon,
+            'trang_thai'    => 1,
+        ]);
+
+        return redirect()->route('admin.nhan-vien-tu-van.index')
+            ->with('success', 'Táº¡o nhÃ¢n viÃªn tÆ° váº¥n thÃ nh cÃ´ng!');
+    }
+
+    public function edit(NhanVienTuVan $nhanVienTuVan)
+    {
+        return view('hethong::admin.nhan-vien-tu-van.form', compact('nhanVienTuVan'));
+    }
+
+    public function update(Request $request, NhanVienTuVan $nhanVienTuVan): RedirectResponse
+    {
+        $request->validate([
+            'ma_nhan_vien'  => 'required|string|max:20|unique:NhanVienTuVan,ma_nhan_vien,' . $nhanVienTuVan->id,
+            'email'         => 'required|email|max:150|unique:NhanVienTuVan,email,' . $nhanVienTuVan->id,
+            'phong_ban'     => 'required|string|max:100',
+            'chuyen_mon'    => 'nullable|string|max:200',
+            'mat_khau'      => 'nullable|string|min:8',
+        ]);
+
+        $data = [
+            'ma_nhan_vien'  => $request->ma_nhan_vien,
+            'email'         => $request->email,
+            'phong_ban'     => $request->phong_ban,
+            'chuyen_mon'    => $request->chuyen_mon,
+        ];
+
+        if ($request->filled('mat_khau')) {
+            $data['mat_khau'] = Hash::make($request->mat_khau);
+        }
+
+        $nhanVienTuVan->update($data);
+
+        return redirect()->route('admin.nhan-vien-tu-van.index')
+            ->with('success', 'Cáº­p nháº­t nhÃ¢n viÃªn tÆ° váº¥n thÃ nh cÃ´ng!');
+    }
+
+    public function destroy(NhanVienTuVan $nhanVienTuVan): RedirectResponse
+    {
+        $nhanVienTuVan->delete();
+
+        return redirect()->route('admin.nhan-vien-tu-van.index')
+            ->with('success', 'XÃ³a nhÃ¢n viÃªn tÆ° váº¥n thÃ nh cÃ´ng!');
+    }
+}
+=== Modules/HeThong/app/Http/Controllers/Admin/ThiSinhController.php ===
+<?php
+
+namespace Modules\HeThong\Http\Controllers\Admin;
+
+use Illuminate\Routing\Controller;
+use Modules\HeThong\Models\ThiSinh;
+
+class ThiSinhController extends Controller
+{
+    public function index()
+    {
+        $danhSach = ThiSinh::latest()->paginate(20);
+        return view('hethong::admin.thi-sinh.index', compact('danhSach'));
+    }
+}
+=== Modules/HeThong/app/Http/Controllers/Auth/DangKyController.php ===
+<?php
+
+namespace Modules\HeThong\Http\Controllers\Auth;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Modules\HeThong\Models\ThiSinh;
+
+class DangKyController extends Controller
+{
+    public function showForm()
+    {
+        return view('hethong::auth.dang-ky');
+    }
+
+    public function dangKy(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'ho_ten'        => 'required|string|max:100',
+            'email'         => 'required|email|max:150|unique:ThiSinh,email',
+            'mat_khau'      => 'required|string|min:8|confirmed',
+            'so_dien_thoai' => 'required|string|max:15',
+            'ngay_sinh'     => 'required|date',
+            'gioi_tinh'     => 'required|in:nam,nu,khac',
+            'so_cccd'       => 'required|string|size:12|unique:ThiSinh,so_cccd',
+        ], [
+            'email.unique'       => 'Email nÃ y Ä‘Ã£ Ä‘Æ°á»£c Ä‘Äƒng kÃ½.',
+            'so_cccd.unique'     => 'Sá»‘ CCCD nÃ y Ä‘Ã£ Ä‘Æ°á»£c Ä‘Äƒng kÃ½.',
+            'mat_khau.min'       => 'Máº­t kháº©u tá»‘i thiá»ƒu 8 kÃ½ tá»±.',
+            'mat_khau.confirmed' => 'XÃ¡c nháº­n máº­t kháº©u khÃ´ng khá»›p.',
+        ]);
+
+        ThiSinh::create([
+            'ho_ten'            => $request->ho_ten,
+            'email'             => $request->email,
+            'mat_khau'          => Hash::make($request->mat_khau),
+            'so_dien_thoai'     => $request->so_dien_thoai,
+            'ngay_sinh'         => $request->ngay_sinh,
+            'gioi_tinh'         => $request->gioi_tinh,
+            'so_cccd'           => $request->so_cccd,
+            'dia_chi'           => null,
+            'tinh_thanh'        => null,
+            'truong_thpt'       => null,
+            'nam_tot_nghiep'    => null,
+            'khu_vuc_uu_tien'   => null,
+            'doi_tuong_uu_tien' => null,
+        ]);
+
+        return redirect()
+            ->route('thi-sinh.dang-nhap')
+            ->with('status', 'ÄÄƒng kÃ½ thÃ nh cÃ´ng! Vui lÃ²ng Ä‘Äƒng nháº­p Ä‘á»ƒ tiáº¿p tá»¥c.');
+    }
+}
+=== Modules/HeThong/app/Http/Controllers/Auth/DangNhapController.php ===
+<?php
+
+namespace Modules\HeThong\Http\Controllers\Auth;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Modules\HeThong\Http\Requests\DangNhapRequest;
+
+class DangNhapController extends Controller
+{
+    public function showForm()
+    {
+        if (request()->is('admin/*')) {
+            return view('hethong::auth.dang-nhap');
+        }
+        return view('hethong::auth.thi-sinh.dang-nhap');
+    }
+
+    public function dangNhap(DangNhapRequest $request): RedirectResponse
+    {
+        $credentials = [
+            'email'    => $request->email,
+            'password' => $request->mat_khau,
+        ];
+
+        // â”€â”€â”€ ÄÄƒng nháº­p ThÃ­ Sinh â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        if (request()->is('thi-sinh/*')) {
+            if (!Auth::guard('thi_sinh')->attempt($credentials, $request->boolean('nho_toi'))) {
+                return back()->withErrors(['email' => 'Email hoáº·c máº­t kháº©u khÃ´ng Ä‘Ãºng.'])->onlyInput('email');
+            }
+            $request->session()->regenerate();
+            return redirect()->route('home');
+        }
+
+        // â”€â”€â”€ ÄÄƒng nháº­p Admin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        if (Auth::guard('admin')->attempt($credentials, $request->boolean('nho_toi'))) {
+            $admin = Auth::guard('admin')->user();
+
+            if (!$admin->trang_thai) {
+                Auth::guard('admin')->logout();
+                return back()->withErrors(['email' => 'TÃ i khoáº£n Ä‘Ã£ bá»‹ khÃ³a. Vui lÃ²ng liÃªn há»‡ quáº£n trá»‹ viÃªn.']);
+            }
+
+            $admin->update(['lan_dang_nhap_cuoi' => now()]);
+            $request->session()->regenerate();
+            return redirect()->route('admin.dashboard');
+        }
+
+        // â”€â”€â”€ ÄÄƒng nháº­p NhÃ¢n ViÃªn TÆ° Váº¥n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        if (Auth::guard('nhan_vien_tu_van')->attempt($credentials, $request->boolean('nho_toi'))) {
+            $nvtv = Auth::guard('nhan_vien_tu_van')->user();
+
+            if (!$nvtv->trang_thai) {
+                Auth::guard('nhan_vien_tu_van')->logout();
+                return back()->withErrors(['email' => 'TÃ i khoáº£n Ä‘Ã£ bá»‹ khÃ³a. Vui lÃ²ng liÃªn há»‡ quáº£n trá»‹ viÃªn.']);
+            }
+
+            $request->session()->regenerate();
+            return redirect()->route('admin.tu-van.dashboard');
+        }
+
+        return back()->withErrors(['email' => 'Email hoáº·c máº­t kháº©u khÃ´ng Ä‘Ãºng.'])->onlyInput('email');
+    }
+
+    public function dangXuat(Request $request): RedirectResponse
+    {
+        if (Auth::guard('thi_sinh')->check()) {
+            Auth::guard('thi_sinh')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->route('thi-sinh.dang-nhap');
+        }
+
+        if (Auth::guard('nhan_vien_tu_van')->check()) {
+            Auth::guard('nhan_vien_tu_van')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->route('admin.dang-nhap');
+        }
+
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('admin.dang-nhap');
+    }
+}
+=== Modules/HeThong/app/Http/Controllers/Auth/DatLaiMatKhauController.php ===
+<?php
+
+namespace Modules\HeThong\Http\Controllers\Auth;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+
+class DatLaiMatKhauController extends Controller
+{
+    public function showQuenMatKhau()
+    {
+        return view('hethong::auth.quen-mat-khau');
+    }
+
+    public function guiLinkDatLai(Request $request): RedirectResponse
+    {
+        $request->validate(['email' => 'required|email']);
+
+        Password::broker('admins')->sendResetLink(
+            $request->only('email')
+        );
+
+        // LuÃ´n tráº£ vá» thÃ nh cÃ´ng Ä‘á»ƒ trÃ¡nh email enumeration
+        return back()->with('status', 'Náº¿u email tá»“n táº¡i, chÃºng tÃ´i Ä‘Ã£ gá»­i link Ä‘áº·t láº¡i máº­t kháº©u.');
+    }
+
+    public function showDatLai(string $token)
+    {
+        return view('hethong::auth.dat-lai-mat-khau', ['token' => $token]);
+    }
+
+    public function datLai(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'token'      => 'required',
+            'email'      => 'required|email',
+            'mat_khau'   => 'required|string|min:8|confirmed',
+        ]);
+
+        $status = Password::broker('admins')->reset(
+            [
+                'email'                 => $request->email,
+                'password'              => $request->mat_khau,
+                'password_confirmation' => $request->mat_khau_confirmation,
+                'token'                 => $request->token,
+            ],
+            function ($user) use ($request) {
+                $user->update(['mat_khau' => Hash::make($request->mat_khau)]);
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return redirect()->route('admin.dang-nhap')->with('status', 'Äáº·t láº¡i máº­t kháº©u thÃ nh cÃ´ng!');
+        }
+
+        return back()->withErrors(['email' => 'Link Ä‘áº·t láº¡i máº­t kháº©u khÃ´ng há»£p lá»‡ hoáº·c Ä‘Ã£ háº¿t háº¡n.']);
+    }
+}
+=== Modules/HeThong/app/Http/Middleware/KiemTraVaiTro.php ===
+<?php
+
+namespace Modules\HeThong\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class KiemTraVaiTro
+{
+    public function handle(Request $request, Closure $next, string $vaiTro): Response
+    {
+        $admin = auth('admin')->user();
+
+        if (!$admin) {
+            return redirect()->route('admin.dang-nhap');
+        }
+
+        // Kiá»ƒm tra tÃ i khoáº£n bá»‹ khÃ³a
+        if (!$admin->trang_thai) {
+            auth('admin')->logout();
+            return redirect()->route('admin.dang-nhap')
+                ->withErrors(['email' => 'TÃ i khoáº£n Ä‘Ã£ bá»‹ khÃ³a.']);
+        }
+
+        match ($vaiTro) {
+            'admin'           => $this->kiemTraAdmin($admin),
+            'nhan_vien_tu_van' => $this->kiemTraNhanVien($admin),
+            default           => abort(403, 'Vai trÃ² khÃ´ng há»£p lá»‡.')
+        };
+
+        return $next($request);
+    }
+
+    private function kiemTraAdmin($admin): void
+    {
+        if ($admin->laNhanVienTuVan()) {
+            abort(403, 'Báº¡n khÃ´ng cÃ³ quyá»n truy cáº­p trang nÃ y.');
+        }
+    }
+
+    private function kiemTraNhanVien($admin): void
+    {
+        if (!$admin->laNhanVienTuVan()) {
+            abort(403, 'Báº¡n khÃ´ng cÃ³ quyá»n truy cáº­p trang nÃ y.');
+        }
+    }
+}
+=== Modules/HeThong/app/Http/Requests/CapNhatNguoiDungRequest.php ===
+<?php
+
+namespace Modules\HeThong\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CapNhatNguoiDungRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        $id = $this->route('admin')?->id;
+
+        return [
+            'ho_ten'        => 'required|string|max:100',
+            'email'         => 'required|email|max:150|unique:Admin,email,' . $id,
+            'so_dien_thoai' => 'nullable|string|max:15',
+            'anh_dai_dien'  => 'nullable|url|max:500',
+            'mat_khau'      => 'nullable|string|min:8',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'ho_ten.required' => 'Vui lÃ²ng nháº­p há» tÃªn.',
+            'email.required'  => 'Vui lÃ²ng nháº­p email.',
+            'email.unique'    => 'Email Ä‘Ã£ tá»“n táº¡i trong há»‡ thá»‘ng.',
+            'mat_khau.min'    => 'Máº­t kháº©u tá»‘i thiá»ƒu 8 kÃ½ tá»±.',
+        ];
+    }
+}
+=== Modules/HeThong/app/Http/Requests/DangNhapRequest.php ===
+<?php
+
+namespace Modules\HeThong\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class DangNhapRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'email'     => 'required|email|max:150',
+            'mat_khau'  => 'required|string|min:8',
+            'nho_toi'   => 'boolean',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.required'    => 'Vui lÃ²ng nháº­p email.',
+            'email.email'       => 'Email khÃ´ng Ä‘Ãºng Ä‘á»‹nh dáº¡ng.',
+            'mat_khau.required' => 'Vui lÃ²ng nháº­p máº­t kháº©u.',
+            'mat_khau.min'      => 'Máº­t kháº©u tá»‘i thiá»ƒu 8 kÃ½ tá»±.',
+        ];
+    }
+}
+=== Modules/HeThong/app/Http/Requests/TaoNguoiDungRequest.php ===
+<?php
+
+namespace Modules\HeThong\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class TaoNguoiDungRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'ho_ten'        => 'required|string|max:100',
+            'email'         => 'required|email|max:150|unique:Admin,email',
+            'mat_khau'      => 'required|string|min:8',
+            'so_dien_thoai' => 'nullable|string|max:15',
+            'anh_dai_dien'  => 'nullable|url|max:500',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'ho_ten.required'   => 'Vui lÃ²ng nháº­p há» tÃªn.',
+            'email.required'    => 'Vui lÃ²ng nháº­p email.',
+            'email.unique'      => 'Email Ä‘Ã£ tá»“n táº¡i trong há»‡ thá»‘ng.',
+            'mat_khau.required' => 'Vui lÃ²ng nháº­p máº­t kháº©u.',
+            'mat_khau.min'      => 'Máº­t kháº©u tá»‘i thiá»ƒu 8 kÃ½ tá»±.',
+        ];
+    }
+}
+=== Modules/HeThong/app/Models/Admin.php ===
+<?php
+
+namespace Modules\HeThong\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class Admin extends Authenticatable
+{
+    protected $table = 'Admin';
+
+    protected $fillable = [
+        'ho_ten',
+        'email',
+        'mat_khau',
+        'so_dien_thoai',
+        'anh_dai_dien',
+        'trang_thai',
+        'lan_dang_nhap_cuoi',
+    ];
+
+    protected $hidden = [
+        'mat_khau',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'trang_thai'         => 'boolean',
+        'lan_dang_nhap_cuoi' => 'datetime',
+    ];
+
+    public function getAuthPasswordName(): string
+    {
+        return 'mat_khau';
+    }
+
+    public function laAdmin(): bool
+    {
+        return true;
+    }
+
+    public function laNhanVienTuVan(): bool
+    {
+        return false;
+    }
+}
+=== Modules/HeThong/app/Models/NhanVienTuVan.php ===
+<?php
+
+namespace Modules\HeThong\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class NhanVienTuVan extends Authenticatable
+{
+    use Notifiable;
+
+    protected $table = 'NhanVienTuVan';
+
+    protected $fillable = [
+        'email',
+        'mat_khau',
+        'trang_thai',
+        'ma_nhan_vien',
+        'phong_ban',
+        'chuyen_mon',
+        'so_luong_tu_van',
+    ];
+
+    protected $hidden = [
+        'mat_khau',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'trang_thai' => 'boolean',
+    ];
+
+    public function getAuthPasswordName(): string
+    {
+        return 'mat_khau';
+    }
+}
+=== Modules/HeThong/app/Models/ThiSinh.php ===
+<?php
+
+namespace Modules\HeThong\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class ThiSinh extends Authenticatable
+{
+    use Notifiable;
+
+    protected $table = 'ThiSinh';
+
+    protected $fillable = [
+        'admin_id',
+        'ho_ten',
+        'ngay_sinh',
+        'gioi_tinh',
+        'so_cccd',
+        'so_dien_thoai',
+        'email',
+        'mat_khau',
+        'dia_chi',
+        'tinh_thanh',
+        'truong_thpt',
+        'nam_tot_nghiep',
+        'khu_vuc_uu_tien',
+        'doi_tuong_uu_tien',
+    ];
+
+    protected $hidden = [
+        'mat_khau',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'ngay_sinh'          => 'date',
+        'email_verified_at'  => 'datetime',
+    ];
+
+    public function getAuthPasswordName(): string
+    {
+        return 'mat_khau';
+    }
+
+    public function admin(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'admin_id');
+    }
+}
+=== Modules/HeThong/app/Services/NguoiDungService.php ===
+<?php
+
+namespace Modules\HeThong\Services;
+
+use Illuminate\Support\Facades\Hash;
+use Modules\HeThong\Models\Admin;
+use Modules\HeThong\Models\NhanVienTuVan;
+use Illuminate\Support\Facades\DB;
+
+class NguoiDungService
+{
+    public function taoAdmin(array $data): Admin
+    {
+        return Admin::create([
+            'ho_ten'        => $data['ho_ten'],
+            'email'         => $data['email'],
+            'mat_khau'      => Hash::make($data['mat_khau']),
+            'so_dien_thoai' => $data['so_dien_thoai'] ?? null,
+            'anh_dai_dien'  => $data['anh_dai_dien'] ?? null,
+            'trang_thai'    => 1,
+        ]);
+    }
+
+    public function taoNhanVienTuVan(array $data): NhanVienTuVan
+    {
+        return DB::transaction(function () use ($data) {
+            $admin = $this->taoAdmin($data);
+
+            return NhanVienTuVan::create([
+                'admin_id'     => $admin->id,
+                'ma_nhan_vien' => $data['ma_nhan_vien'],
+                'phong_ban'    => $data['phong_ban'],
+                'chuyen_mon'   => $data['chuyen_mon'] ?? null,
+            ]);
+        });
+    }
+
+    public function capNhatAdmin(Admin $admin, array $data): Admin
+    {
+        $payload = [
+            'ho_ten'        => $data['ho_ten'],
+            'email'         => $data['email'],
+            'so_dien_thoai' => $data['so_dien_thoai'] ?? null,
+            'anh_dai_dien'  => $data['anh_dai_dien'] ?? null,
+        ];
+
+        if (!empty($data['mat_khau'])) {
+            $payload['mat_khau'] = Hash::make($data['mat_khau']);
+        }
+
+        $admin->update($payload);
+
+        return $admin->fresh();
+    }
+
+    public function capNhatNhanVien(NhanVienTuVan $nhanVien, array $data): NhanVienTuVan
+    {
+        return DB::transaction(function () use ($nhanVien, $data) {
+            $this->capNhatAdmin($nhanVien->admin, $data);
+
+            $nhanVien->update([
+                'ma_nhan_vien' => $data['ma_nhan_vien'],
+                'phong_ban'    => $data['phong_ban'],
+                'chuyen_mon'   => $data['chuyen_mon'] ?? null,
+            ]);
+
+            return $nhanVien->fresh();
+        });
+    }
+
+    public function khoaMoTaiKhoan(Admin $admin): bool
+    {
+        $admin->update(['trang_thai' => !$admin->trang_thai]);
+        return $admin->trang_thai;
+    }
+
+    public function xoaAdmin(Admin $admin): void
+    {
+        $admin->delete();
+    }
+}
+=== Modules/HeThong/app/Providers/HeThongServiceProvider.php ===
+<?php
+
+namespace Modules\HeThong\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Modules\HeThong\Services\NguoiDungService;
+use Modules\HeThong\Services\NhatKyService;
+use Modules\HeThong\Services\PhanQuyenService;
+
+class HeThongServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        $this->app->singleton(NguoiDungService::class);
+        $this->app->singleton(NhatKyService::class);
+        $this->app->singleton(PhanQuyenService::class);
+    }
+
+    public function boot(): void
+    {
+        $this->loadMigrationsFrom(module_path('HeThong', 'database/migrations'));
+        $this->loadViewsFrom(module_path('HeThong', 'resources/views'), 'hethong');
+        $this->loadTranslationsFrom(module_path('HeThong', 'lang'), 'hethong');
+    }
+}
+=== Modules/HeThong/app/Providers/RouteServiceProvider.php ===
+<?php
+
+namespace Modules\HeThong\Providers;
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+
+class RouteServiceProvider extends ServiceProvider
+{
+    public function boot(): void
+    {
+        $this->routes(function () {
+            // Web routes
+            Route::middleware('web')
+                ->group(module_path('HeThong', 'routes/web.php'));
+
+            // API routes
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(module_path('HeThong', 'routes/api.php'));
+        });
+    }
+}
+=== Modules/HeThong/routes/web.php ===
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Modules\HeThong\Http\Controllers\Auth\DangNhapController;
+use Modules\HeThong\Http\Controllers\Auth\DangKyController;
+use Modules\HeThong\Http\Controllers\Auth\DatLaiMatKhauController;
+use Modules\HeThong\Http\Controllers\Admin\AdminController;
+use Modules\HeThong\Http\Controllers\Admin\NhanVienTuVanController;
+use Modules\HeThong\Http\Controllers\Admin\ThiSinhController; // â† thÃªm
+
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    Route::middleware('guest:admin')->group(function () {
+        Route::get('dang-nhap', [DangNhapController::class, 'showForm'])->name('dang-nhap');
+        Route::post('dang-nhap', [DangNhapController::class, 'dangNhap']);
+
+        Route::get('quen-mat-khau', [DatLaiMatKhauController::class, 'showQuenMatKhau'])->name('quen-mat-khau');
+        Route::post('quen-mat-khau', [DatLaiMatKhauController::class, 'guiLinkDatLai']);
+
+        Route::get('dat-lai-mat-khau/{token}', [DatLaiMatKhauController::class, 'showDatLai'])->name('dat-lai-mat-khau');
+        Route::post('dat-lai-mat-khau', [DatLaiMatKhauController::class, 'datLai']);
+    });
+
+    Route::post('dang-xuat', [DangNhapController::class, 'dangXuat'])
+        ->name('dang-xuat')
+        ->middleware(['auth:admin,nhan_vien_tu_van']);
+
+    Route::middleware(['auth:admin', 'vai_tro:admin'])->group(function () {
+
+        Route::get('dashboard', fn() => view('hethong::admin.dashboard'))->name('dashboard');
+
+        Route::prefix('quan-ly')->name('quan-ly.')->group(function () {
+            Route::get('/', [AdminController::class, 'index'])->name('index');
+            Route::get('tao', [AdminController::class, 'create'])->name('create');
+            Route::post('tao', [AdminController::class, 'store'])->name('store');
+            Route::get('{admin}/sua', [AdminController::class, 'edit'])->name('edit');
+            Route::put('{admin}', [AdminController::class, 'update'])->name('update');
+            Route::patch('{admin}/khoa', [AdminController::class, 'khoaTaiKhoan'])->name('khoa');
+            Route::delete('{admin}', [AdminController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('nhan-vien-tu-van')->name('nhan-vien-tu-van.')->group(function () {
+            Route::get('/', [NhanVienTuVanController::class, 'index'])->name('index');
+            Route::get('tao', [NhanVienTuVanController::class, 'create'])->name('create');
+            Route::post('tao', [NhanVienTuVanController::class, 'store'])->name('store');
+            Route::get('{nhanVienTuVan}/sua', [NhanVienTuVanController::class, 'edit'])->name('edit');
+            Route::put('{nhanVienTuVan}', [NhanVienTuVanController::class, 'update'])->name('update');
+            Route::delete('{nhanVienTuVan}', [NhanVienTuVanController::class, 'destroy'])->name('destroy');
+        });
+
+        // â† thÃªm route thÃ­ sinh
+        Route::prefix('thi-sinh')->name('thi-sinh.')->group(function () {
+            Route::get('/', [ThiSinhController::class, 'index'])->name('index');
+        });
+    });
+
+    Route::middleware(['auth:nhan_vien_tu_van'])->group(function () {
+        Route::get('tu-van/dashboard', fn() => view('hethong::admin.tu-van.dashboard'))
+            ->name('tu-van.dashboard');
+    });
+});
+
+Route::prefix('thi-sinh')->name('thi-sinh.')->group(function () {
+
+    Route::middleware('guest:thi_sinh')->group(function () {
+        Route::get('dang-ky', [DangKyController::class, 'showForm'])->name('dang-ky');
+        Route::post('dang-ky', [DangKyController::class, 'dangKy'])->name('dang-ky.store');
+
+        Route::get('dang-nhap', [DangNhapController::class, 'showForm'])->name('dang-nhap');
+        Route::post('dang-nhap', [DangNhapController::class, 'dangNhap']);
+    });
+
+    Route::middleware('auth:thi_sinh')->group(function () {
+        Route::post('dang-xuat', [DangNhapController::class, 'dangXuat'])->name('dang-xuat');
+        Route::get('dashboard', fn() => redirect()->route('home'))->name('dashboard');
+    });
+});
+=== Modules/HeThong/routes/api.php ===
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Modules\HeThong\Http\Controllers\Auth\DangNhapController;
+
+// API login Admin â€” tráº£ vá» Sanctum token
+Route::prefix('v1')->group(function () {
+
+    Route::post('admin/dang-nhap', [DangNhapController::class, 'dangNhapApi'])
+        ->name('api.admin.dang-nhap');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('admin/dang-xuat', [DangNhapController::class, 'dangXuatApi'])
+            ->name('api.admin.dang-xuat');
+    });
+});
+

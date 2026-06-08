@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/sukien",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\SuKien\\": "app/",
+            "Modules\\SuKien\\Database\\Factories\\": "database/factories/",
+            "Modules\\SuKien\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\SuKien\\Tests\\": "tests/"
+        }
+    }
+}

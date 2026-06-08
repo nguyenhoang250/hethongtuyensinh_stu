@@ -1,0 +1,11 @@
+{
+    "name": "HoSo",
+    "alias": "hoso",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\HoSo\\Providers\\HoSoServiceProvider"
+    ],
+    "files": []
+}

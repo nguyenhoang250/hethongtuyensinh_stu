@@ -1,0 +1,47 @@
+﻿
+FullName                                                                                                           Leng
+                                                                                                                     th
+--------                                                                                                           ----
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Controllers\HeThongController.php             1075
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Controllers\Admin\AdminController.php         3506
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Controllers\Admin\NhanVienTuVanController.php 3365
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Controllers\Admin\ThiSinhController.php        358
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Controllers\Auth\DangKyController.php         2202
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Controllers\Auth\DangNhapController.php       3537
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Controllers\Auth\DatLaiMatKhauController.php  2086
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Middleware\KiemTraVaiTro.php                  1353
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Requests\CapNhatNguoiDungRequest.php          1038
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Requests\DangNhapRequest.php                   821
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Http\Requests\TaoNguoiDungRequest.php              1060
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Models\Admin.php                                    845
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Models\NhanVienTuVan.php                            711
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Models\ThiSinh.php                                 1081
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Notifications\DatLaiMatKhau.php                    1086
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Notifications\XacNhanEmail.php                      948
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Providers\EventServiceProvider.php                  286
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Providers\HeThongServiceProvider.php                786
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Providers\RouteServiceProvider.php                  609
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Services\NguoiDungService.php                      2466
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Services\NhatKyService.php                         1162
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\app\Services\PhanQuyenService.php                       895
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\config\config.php                                        44
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\database\seeders\HeThongDatabaseSeeder.php              251
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\index.blade.php                         133
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\admin\dashboard.blade.php              1375
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\admin\admin\form.blade.php             2353
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\admin\admin\index.blade.php            3155
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\admin\nhan-vien-tu-van\form.blade.php  3060
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\admin\nhan-vien-tu-van\index.blade.php 2675
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\admin\thi-sinh\index.blade.php         1723
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\admin\tu-van\dashboard.blade.php       2413
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\auth\dang-ky.blade.php                 ...9
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\auth\dang-nhap.blade.php               3118
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\auth\dat-lai-mat-khau.blade.php        2630
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\auth\quen-mat-khau.blade.php           2079
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\auth\xac-nhan-email.blade.php          1583
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\auth\thi-sinh\dang-nhap.blade.php      ...4
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\resources\views\components\layouts\master.blade.php     636
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\routes\api.php                                          513
+C:\Users\HOANG\Desktop\hethongtuyensinh_stu\Modules\HeThong\routes\web.php                                         4010
+
+

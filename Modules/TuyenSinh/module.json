@@ -1,0 +1,11 @@
+{
+    "name": "TuyenSinh",
+    "alias": "tuyensinh",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TuyenSinh\\Providers\\TuyenSinhServiceProvider"
+    ],
+    "files": []
+}

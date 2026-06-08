@@ -1,0 +1,1734 @@
+﻿=== Modules/HeThong/resources/views/auth/dang-nhap.blade.php ===
+{{-- Modules/HeThong/resources/views/auth/dang-nhap.blade.php --}}
+@extends('hethong::components.layouts.master')
+
+@section('title', 'ÄÄƒng nháº­p â€” STU Tuyá»ƒn Sinh')
+
+@section('content')
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-md p-8">
+
+        <div class="text-center mb-8">
+            <img src="{{ asset('images/logo-stu.png') }}" alt="STU" class="h-16 mx-auto mb-3">
+            <h1 class="text-2xl font-bold text-gray-800">ÄÄƒng nháº­p</h1>
+            <p class="text-sm text-gray-500 mt-1">Há»‡ thá»‘ng Tuyá»ƒn sinh STU</p>
+        </div>
+
+        @if(session('status'))
+            <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('admin.dang-nhap') }}">
+            @csrf
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" name="email" value="{{ old('email') }}"
+                    class="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500
+                        {{ $errors->has('email') ? 'border-red-400' : 'border-gray-300' }}"
+                    placeholder="admin@stu.edu.vn" autofocus>
+                @error('email')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Máº­t kháº©u</label>
+                <input type="password" name="mat_khau"
+                    class="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500
+                        {{ $errors->has('mat_khau') ? 'border-red-400' : 'border-gray-300' }}"
+                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
+                @error('mat_khau')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="flex items-center justify-between mb-6">
+                <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+                    <input type="checkbox" name="nho_toi" class="rounded">
+                    Nhá»› Ä‘Äƒng nháº­p
+                </label>
+                <a href="{{ route('admin.quen-mat-khau') }}"
+                    class="text-sm text-blue-600 hover:underline">
+                    QuÃªn máº­t kháº©u?
+                </a>
+            </div>
+
+            <button type="submit"
+                class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-sm transition">
+                ÄÄƒng nháº­p
+            </button>
+            <p class="text-center text-sm text-gray-500 mt-4">
+    ChÆ°a cÃ³ tÃ i khoáº£n?
+    
+</p>
+        </form>
+
+    </div>
+</div>
+@endsection
+=== Modules/HeThong/resources/views/auth/dang-ky.blade.php ===
+{{-- Modules/HeThong/resources/views/auth/dang-ky.blade.php --}}
+@extends('hethong::components.layouts.master')
+
+@section('title', 'ÄÄƒng kÃ½ tÃ i khoáº£n â€” STU Tuyá»ƒn Sinh')
+
+@section('styles')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --navy:       #005B96;
+        --navy-mid:   #0A6FB3;
+        --red:        #D71920;
+        --red-dark:   #B51218;
+        --red-light:  #F03A40;
+        --gold:       #F2B233;
+        --gold-light: #FFD15C;
+        --white:      #FFFFFF;
+        --text:       #1C2B39;
+        --gray-50:    #F7FAFC;
+        --gray-100:   #EAF0F5;
+        --gray-300:   #C7D3DF;
+        --gray-500:   #708399;
+        --gray-700:   #32485C;
+        --font-display: 'Playfair Display', serif;
+        --font-body:    'Be Vietnam Pro', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ===== PAGE ===== */
+    .reg-page {
+        min-height: 100vh;
+        background: var(--gray-100);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 32px 16px 48px;
+        font-family: var(--font-body);
+    }
+
+    /* ===== CARD ===== */
+    .reg-card {
+        width: 100%;
+        max-width: 980px;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(13,27,62,.16), 0 4px 16px rgba(13,27,62,.08);
+        animation: cardIn .5s cubic-bezier(.22,.68,0,1.2) both;
+    }
+    @keyframes cardIn {
+        from { opacity: 0; transform: translateY(24px) scale(.97); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ===== LEFT PANEL ===== */
+    .reg-left {
+        background: var(--navy);
+        padding: 44px 32px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+    .reg-left::before {
+        content: '';
+        position: absolute; top: -60px; right: -60px;
+        width: 200px; height: 200px; border-radius: 50%;
+        background: rgba(242,178,51,.1); pointer-events: none;
+    }
+    .reg-left::after {
+        content: '';
+        position: absolute; bottom: -50px; left: -40px;
+        width: 180px; height: 180px; border-radius: 50%;
+        background: rgba(215,25,32,.13); pointer-events: none;
+    }
+    .reg-left-deco {
+        position: absolute; top: 40%; right: -40px;
+        width: 110px; height: 110px; border-radius: 50%;
+        border: 1px solid rgba(255,255,255,.07); pointer-events: none;
+    }
+
+    .rl-logo {
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 32px; position: relative; z-index: 1;
+        animation: fadeUp .5s .1s both;
+    }
+    .rl-logo-mark {
+        width: 48px; height: 48px; background: var(--red);
+        border-radius: 10px; display: flex; align-items: center; justify-content: center;
+        font-family: var(--font-display); font-weight: 900; font-size: 16px;
+        color: #fff; letter-spacing: -1px; flex-shrink: 0;
+    }
+    .rl-logo-name { font-weight: 700; font-size: 12.5px; color: #fff; line-height: 1.3; }
+    .rl-logo-sub  { font-size: 10px; color: rgba(255,255,255,.4); margin-top: 1px; }
+
+    .rl-headline {
+        font-family: var(--font-display); font-size: 26px; font-weight: 900;
+        color: #fff; line-height: 1.25; margin-bottom: 12px;
+        position: relative; z-index: 1;
+        animation: fadeUp .5s .15s both;
+    }
+    .rl-headline .accent { color: var(--gold-light); }
+
+    .rl-tagline {
+        font-size: 12.5px; color: rgba(255,255,255,.58);
+        line-height: 1.75; margin-bottom: 28px;
+        position: relative; z-index: 1;
+        animation: fadeUp .5s .2s both;
+    }
+
+    /* Steps list */
+    .rl-steps {
+        display: flex; flex-direction: column; gap: 14px;
+        position: relative; z-index: 1;
+        animation: fadeUp .5s .25s both;
+    }
+    .rl-step {
+        display: flex; align-items: flex-start; gap: 12px;
+    }
+    .rl-step-num {
+        width: 26px; height: 26px; border-radius: 50%;
+        background: rgba(255,255,255,.1);
+        border: 1px solid rgba(255,255,255,.2);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 11px; font-weight: 700; color: var(--gold-light);
+        flex-shrink: 0; margin-top: 1px;
+    }
+    .rl-step-text .title {
+        font-size: 12.5px; font-weight: 700; color: #fff; margin-bottom: 2px;
+    }
+    .rl-step-text .desc {
+        font-size: 11px; color: rgba(255,255,255,.45); line-height: 1.5;
+    }
+
+    /* Bottom */
+    .rl-bottom { position: relative; z-index: 1; animation: fadeUp .5s .3s both; }
+    .rl-badge {
+        display: inline-flex; align-items: center; gap: 7px;
+        background: rgba(242,178,51,.14);
+        border: 1px solid rgba(242,178,51,.3);
+        color: var(--gold-light);
+        padding: 6px 14px; border-radius: 50px;
+        font-size: 11px; font-weight: 700; letter-spacing: .06em;
+        margin-bottom: 10px;
+    }
+    .rl-badge-dot {
+        width: 6px; height: 6px; background: var(--gold); border-radius: 50%;
+        animation: blink 1.5s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .rl-hotline {
+        display: flex; align-items: center; gap: 6px;
+        font-size: 11px; color: rgba(255,255,255,.4);
+    }
+    .rl-hotline i { color: var(--gold); font-size: 12px; }
+
+    /* ===== RIGHT PANEL ===== */
+    .reg-right {
+        background: var(--white);
+        padding: 44px 40px;
+    }
+
+    .rr-header { margin-bottom: 24px; animation: fadeUp .5s .1s both; }
+    .rr-eyebrow {
+        font-size: 11px; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .1em; color: var(--red);
+        display: flex; align-items: center; gap: 8px; margin-bottom: 7px;
+    }
+    .rr-eyebrow::before {
+        content: ''; display: block; width: 18px; height: 2px;
+        background: var(--red); border-radius: 2px;
+    }
+    .rr-title {
+        font-family: var(--font-display); font-size: 24px; font-weight: 700;
+        color: var(--navy); line-height: 1.2; margin-bottom: 4px;
+    }
+    .rr-subtitle { font-size: 12.5px; color: var(--gray-500); }
+
+    /* Progress stepper */
+    .rr-progress {
+        display: flex; align-items: center; gap: 0;
+        margin-bottom: 28px;
+        animation: fadeUp .5s .15s both;
+    }
+    .rp-step {
+        display: flex; align-items: center; gap: 6px;
+        font-size: 11.5px; font-weight: 600; color: var(--gray-500);
+        flex-shrink: 0;
+    }
+    .rp-step.active { color: var(--navy); }
+    .rp-step.done   { color: #22c55e; }
+    .rp-num {
+        width: 22px; height: 22px; border-radius: 50%;
+        border: 1.5px solid var(--gray-300);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 10px; font-weight: 700; color: var(--gray-500);
+        transition: all .3s;
+    }
+    .rp-step.active .rp-num { background: var(--navy); border-color: var(--navy); color: #fff; }
+    .rp-step.done   .rp-num { background: #22c55e; border-color: #22c55e; color: #fff; }
+    .rp-line {
+        flex: 1; height: 1.5px; background: var(--gray-100); margin: 0 8px;
+    }
+    .rp-line.done { background: #22c55e; }
+
+    /* Section label */
+    .rr-section {
+        font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .09em; color: var(--gray-500);
+        margin-bottom: 14px; padding-bottom: 8px;
+        border-bottom: 1.5px solid var(--gray-100);
+        display: flex; align-items: center; gap: 8px;
+        animation: fadeUp .5s .2s both;
+    }
+    .rr-section i { color: var(--red); font-size: 13px; }
+
+    /* Grid */
+    .rr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 6px; }
+    .rr-grid.full { grid-template-columns: 1fr; }
+    .rr-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+    /* Field */
+    .rr-field { margin-bottom: 14px; animation: fadeUp .5s .2s both; }
+    .rr-label {
+        display: block; font-size: 12px; font-weight: 600;
+        color: var(--navy); margin-bottom: 5px;
+    }
+    .rr-label .req { color: var(--red); }
+
+    .rr-input-wrap { position: relative; }
+    .rr-input-icon {
+        position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+        color: var(--gray-500); font-size: 13px; pointer-events: none;
+        transition: color .2s;
+    }
+    .rr-input {
+        width: 100%; padding: 9px 12px 9px 36px;
+        border: 1.5px solid var(--gray-300); border-radius: 8px;
+        font-family: var(--font-body); font-size: 13px;
+        color: var(--text); background: var(--gray-50); outline: none;
+        transition: border-color .2s, background .2s, box-shadow .2s;
+    }
+    .rr-input:focus {
+        border-color: var(--red); background: #fff;
+        box-shadow: 0 0 0 3px rgba(215,25,32,.07);
+    }
+    .rr-input:focus + .rr-input-icon { color: var(--red); }
+    .rr-input::placeholder { color: #B0BFCC; font-size: 12.5px; }
+    .rr-input.is-invalid { border-color: var(--red); background: #fff9f9; }
+
+    select.rr-input { cursor: pointer; }
+    input[type=date].rr-input { cursor: pointer; }
+
+    .rr-pw-toggle {
+        position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+        background: none; border: none; cursor: pointer; padding: 0;
+        color: var(--gray-500); font-size: 13px; line-height: 1;
+        transition: color .2s;
+    }
+    .rr-pw-toggle:hover { color: var(--navy); }
+
+    .rr-error {
+        font-size: 11px; color: var(--red); margin-top: 4px;
+        display: flex; align-items: center; gap: 4px;
+    }
+    .rr-error i { font-size: 11px; }
+
+    /* Password strength */
+    .pw-strength-bar {
+        display: flex; gap: 4px; margin-top: 6px;
+    }
+    .pw-bar-seg {
+        flex: 1; height: 3px; border-radius: 2px;
+        background: var(--gray-100); transition: background .3s;
+    }
+    .pw-strength-label {
+        font-size: 10.5px; margin-top: 3px; color: var(--gray-500);
+        min-height: 14px; transition: color .3s;
+    }
+
+    /* Terms checkbox */
+    .rr-terms {
+        display: flex; align-items: flex-start; gap: 9px;
+        font-size: 12px; color: var(--gray-500); line-height: 1.6;
+        margin-bottom: 20px; margin-top: 4px;
+        animation: fadeUp .5s .35s both;
+    }
+    .rr-terms input[type=checkbox] { accent-color: var(--red); width: 14px; height: 14px; margin-top: 2px; flex-shrink: 0; }
+    .rr-terms a { color: var(--navy); font-weight: 600; text-decoration: none; }
+    .rr-terms a:hover { color: var(--red); text-decoration: underline; }
+
+    /* Submit */
+    .rr-submit {
+        width: 100%; padding: 12px 24px;
+        background: var(--red); color: #fff; border: none;
+        border-radius: 50px; font-family: var(--font-body);
+        font-size: 14px; font-weight: 700; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        transition: background .2s, transform .15s, box-shadow .2s;
+        box-shadow: 0 4px 16px rgba(215,25,32,.28);
+        margin-bottom: 18px;
+        animation: fadeUp .5s .4s both;
+    }
+    .rr-submit:hover {
+        background: var(--red-dark); transform: translateY(-1px);
+        box-shadow: 0 6px 22px rgba(215,25,32,.38);
+    }
+    .rr-submit:active { transform: translateY(0); }
+
+    /* Footer link */
+    .rr-footer {
+        text-align: center; font-size: 12.5px; color: var(--gray-500);
+        animation: fadeUp .5s .45s both;
+    }
+    .rr-footer a { color: var(--red); font-weight: 600; text-decoration: none; }
+    .rr-footer a:hover { text-decoration: underline; }
+
+    /* Keyframes */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 760px) {
+        .reg-card { grid-template-columns: 1fr; max-width: 500px; }
+        .reg-left { padding: 32px 28px; }
+        .rl-steps { display: none; }
+        .reg-right { padding: 32px 24px; }
+        .rr-grid { grid-template-columns: 1fr; }
+        .rr-grid.three { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+        .rr-grid.three { grid-template-columns: 1fr; }
+    }
+</style>
+@endsection
+
+@section('content')
+<div class="reg-page">
+    <div class="reg-card">
+
+        {{-- ===== LEFT PANEL ===== --}}
+        <div class="reg-left">
+            <div class="reg-left-deco"></div>
+
+            <div style="position:relative;z-index:1">
+                 {{-- Logo --}}
+               <a href="{{ url('/') }}" class="navbar-logo" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+    <img src="{{ asset('imgs/logostu.png') }}" 
+         alt="Logo STU" 
+         style="height:40px; width:auto; display:block; flex-shrink:0;">
+    <div style="line-height:1.3; border-left:1px solid #C7D3DF; padding-left:10px;">
+        <div style="font-weight:800; font-size:13px; color:#005B96; white-space:nowrap;">ÄH CÃ´ng nghá»‡ SÃ i GÃ²n</div>
+        <div style="font-size:10px; color:#708399; font-weight:500; white-space:nowrap;">Saigon Technology University</div>
+    </div>
+</a>
+<br>
+
+                <h2 class="rl-headline">
+                    Báº¯t Ä‘áº§u hÃ nh trÃ¬nh<br>cÃ¹ng <span class="accent">STU</span>
+                </h2>
+                <p class="rl-tagline">
+                    Táº¡o tÃ i khoáº£n miá»…n phÃ­ Ä‘á»ƒ<br>
+                    theo dÃµi há»“ sÆ¡ & nháº­n thÃ´ng bÃ¡o<br>
+                    tuyá»ƒn sinh 2026.
+                </p>
+
+                {{-- Steps --}}
+                <div class="rl-steps">
+                    <div class="rl-step">
+                        <div class="rl-step-num">1</div>
+                        <div class="rl-step-text">
+                            <div class="title">Äiá»n thÃ´ng tin cÃ¡ nhÃ¢n</div>
+                            <div class="desc">Há» tÃªn, ngÃ y sinh, CCCD, liÃªn há»‡</div>
+                        </div>
+                    </div>
+                    <div class="rl-step">
+                        <div class="rl-step-num">2</div>
+                        <div class="rl-step-text">
+                            <div class="title">Táº¡o tÃ i khoáº£n & máº­t kháº©u</div>
+                            <div class="desc">Email Ä‘Äƒng nháº­p & báº£o máº­t</div>
+                        </div>
+                    </div>
+                    <div class="rl-step">
+                        <div class="rl-step-num">3</div>
+                        <div class="rl-step-text">
+                            <div class="title">Ná»™p há»“ sÆ¡ xÃ©t tuyá»ƒn</div>
+                            <div class="desc">Chá»n ngÃ nh & phÆ°Æ¡ng thá»©c xÃ©t tuyá»ƒn</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Bottom --}}
+            <div class="rl-bottom">
+                <div class="rl-badge">
+                    <span class="rl-badge-dot"></span>
+                    Tuyá»ƒn sinh 2026 Ä‘ang má»Ÿ
+                </div>
+                <div class="rl-hotline">
+                    <i class="fas fa-phone-alt"></i>
+                    Hotline: (84.8) 3850 5520
+                </div>
+            </div>
+        </div>
+
+        {{-- ===== RIGHT PANEL ===== --}}
+        <div class="reg-right">
+
+            {{-- Header --}}
+            <div class="rr-header">
+                <div class="rr-eyebrow">Há»‡ thá»‘ng tuyá»ƒn sinh</div>
+                <h2 class="rr-title">ÄÄƒng kÃ½ tÃ i khoáº£n</h2>
+                <p class="rr-subtitle">DÃ nh cho thÃ­ sinh Ä‘Äƒng kÃ½ xÃ©t tuyá»ƒn STU 2026</p>
+            </div>
+
+            {{-- Progress --}}
+            <div class="rr-progress">
+                <div class="rp-step active">
+                    <div class="rp-num">1</div>
+                    <span>CÃ¡ nhÃ¢n</span>
+                </div>
+                <div class="rp-line"></div>
+                <div class="rp-step">
+                    <div class="rp-num">2</div>
+                    <span>TÃ i khoáº£n</span>
+                </div>
+                <div class="rp-line"></div>
+                <div class="rp-step">
+                    <div class="rp-num">3</div>
+                    <span>HoÃ n táº¥t</span>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ route('thi-sinh.dang-ky.store') }}" novalidate>
+                @csrf
+
+                {{-- SECTION 1: ThÃ´ng tin cÃ¡ nhÃ¢n --}}
+                <div class="rr-section">
+                    <i class="fas fa-user"></i> ThÃ´ng tin cÃ¡ nhÃ¢n
+                </div>
+
+                {{-- Há» vÃ  tÃªn --}}
+                <div class="rr-grid full">
+                    <div class="rr-field">
+                        <label class="rr-label" for="ho_ten">Há» vÃ  tÃªn <span class="req">*</span></label>
+                        <div class="rr-input-wrap">
+                            <input
+                                type="text" id="ho_ten" name="ho_ten"
+                                value="{{ old('ho_ten') }}"
+                                class="rr-input {{ $errors->has('ho_ten') ? 'is-invalid' : '' }}"
+                                placeholder="Nguyá»…n VÄƒn A" autocomplete="name" autofocus
+                            >
+                            <i class="fas fa-user rr-input-icon"></i>
+                        </div>
+                        @error('ho_ten')
+                            <div class="rr-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- NgÃ y sinh + Giá»›i tÃ­nh --}}
+                <div class="rr-grid">
+                    <div class="rr-field">
+                        <label class="rr-label" for="ngay_sinh">NgÃ y sinh <span class="req">*</span></label>
+                        <div class="rr-input-wrap">
+                            <input
+                                type="date" id="ngay_sinh" name="ngay_sinh"
+                                value="{{ old('ngay_sinh') }}"
+                                class="rr-input {{ $errors->has('ngay_sinh') ? 'is-invalid' : '' }}"
+                            >
+                            <i class="fas fa-calendar-alt rr-input-icon"></i>
+                        </div>
+                        @error('ngay_sinh')
+                            <div class="rr-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="rr-field">
+                        <label class="rr-label" for="gioi_tinh">Giá»›i tÃ­nh <span class="req">*</span></label>
+                        <div class="rr-input-wrap">
+                            <select
+                                id="gioi_tinh" name="gioi_tinh"
+                                class="rr-input {{ $errors->has('gioi_tinh') ? 'is-invalid' : '' }}"
+                            >
+                                <option value="">-- Chá»n --</option>
+                                <option value="nam"  {{ old('gioi_tinh') === 'nam'  ? 'selected' : '' }}>Nam</option>
+                                <option value="nu"   {{ old('gioi_tinh') === 'nu'   ? 'selected' : '' }}>Ná»¯</option>
+                                <option value="khac" {{ old('gioi_tinh') === 'khac' ? 'selected' : '' }}>KhÃ¡c</option>
+                            </select>
+                            <i class="fas fa-venus-mars rr-input-icon"></i>
+                        </div>
+                        @error('gioi_tinh')
+                            <div class="rr-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- CCCD + SÄT --}}
+                <div class="rr-grid">
+                    <div class="rr-field">
+                        <label class="rr-label" for="so_cccd">Sá»‘ CCCD <span class="req">*</span></label>
+                        <div class="rr-input-wrap">
+                            <input
+                                type="text" id="so_cccd" name="so_cccd"
+                                value="{{ old('so_cccd') }}"
+                                class="rr-input {{ $errors->has('so_cccd') ? 'is-invalid' : '' }}"
+                                placeholder="012345678901" maxlength="12"
+                                inputmode="numeric"
+                            >
+                            <i class="fas fa-id-card rr-input-icon"></i>
+                        </div>
+                        @error('so_cccd')
+                            <div class="rr-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="rr-field">
+                        <label class="rr-label" for="so_dien_thoai">Sá»‘ Ä‘iá»‡n thoáº¡i <span class="req">*</span></label>
+                        <div class="rr-input-wrap">
+                            <input
+                                type="tel" id="so_dien_thoai" name="so_dien_thoai"
+                                value="{{ old('so_dien_thoai') }}"
+                                class="rr-input {{ $errors->has('so_dien_thoai') ? 'is-invalid' : '' }}"
+                                placeholder="0901 234 567"
+                                inputmode="tel"
+                            >
+                            <i class="fas fa-phone-alt rr-input-icon"></i>
+                        </div>
+                        @error('so_dien_thoai')
+                            <div class="rr-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- SECTION 2: TÃ i khoáº£n --}}
+                <div class="rr-section" style="margin-top:10px">
+                    <i class="fas fa-lock"></i> ThÃ´ng tin tÃ i khoáº£n
+                </div>
+
+                {{-- Email --}}
+                <div class="rr-grid full">
+                    <div class="rr-field">
+                        <label class="rr-label" for="email">Email <span class="req">*</span></label>
+                        <div class="rr-input-wrap">
+                            <input
+                                type="email" id="email" name="email"
+                                value="{{ old('email') }}"
+                                class="rr-input {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                                placeholder="example@gmail.com" autocomplete="email"
+                            >
+                            <i class="fas fa-envelope rr-input-icon"></i>
+                        </div>
+                        @error('email')
+                            <div class="rr-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- Máº­t kháº©u + XÃ¡c nháº­n --}}
+                <div class="rr-grid">
+                    <div class="rr-field">
+                        <label class="rr-label" for="mat_khau">Máº­t kháº©u <span class="req">*</span></label>
+                        <div class="rr-input-wrap">
+                            <input
+                                type="password" id="mat_khau" name="mat_khau"
+                                class="rr-input {{ $errors->has('mat_khau') ? 'is-invalid' : '' }}"
+                                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" autocomplete="new-password"
+                                style="padding-right:36px"
+                            >
+                            <i class="fas fa-key rr-input-icon"></i>
+                            <button type="button" class="rr-pw-toggle" id="pw-toggle1" aria-label="Hiá»‡n/áº©n máº­t kháº©u">
+                                <i class="fas fa-eye" id="pw-eye1"></i>
+                            </button>
+                        </div>
+                        {{-- Password strength --}}
+                        <div class="pw-strength-bar" id="pw-bars">
+                            <div class="pw-bar-seg" id="bar1"></div>
+                            <div class="pw-bar-seg" id="bar2"></div>
+                            <div class="pw-bar-seg" id="bar3"></div>
+                            <div class="pw-bar-seg" id="bar4"></div>
+                        </div>
+                        <div class="pw-strength-label" id="pw-label"></div>
+                        @error('mat_khau')
+                            <div class="rr-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="rr-field">
+                        <label class="rr-label" for="mat_khau_confirmation">XÃ¡c nháº­n máº­t kháº©u <span class="req">*</span></label>
+                        <div class="rr-input-wrap">
+                            <input
+                                type="password" id="mat_khau_confirmation" name="mat_khau_confirmation"
+                                class="rr-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                                autocomplete="new-password"
+                                style="padding-right:36px"
+                            >
+                            <i class="fas fa-shield-alt rr-input-icon"></i>
+                            <button type="button" class="rr-pw-toggle" id="pw-toggle2" aria-label="Hiá»‡n/áº©n máº­t kháº©u">
+                                <i class="fas fa-eye" id="pw-eye2"></i>
+                            </button>
+                        </div>
+                        <div class="pw-strength-label" id="pw-match-label"></div>
+                    </div>
+                </div>
+
+                {{-- Terms --}}
+                <div class="rr-terms">
+                    <input type="checkbox" name="dong_y_dieu_khoan" id="terms" required>
+                    <label for="terms">
+                        TÃ´i Ä‘Ã£ Ä‘á»c vÃ  Ä‘á»“ng Ã½ vá»›i
+                        <a href="#" target="_blank">Äiá»u khoáº£n sá»­ dá»¥ng</a>
+                        vÃ 
+                        <a href="#" target="_blank">ChÃ­nh sÃ¡ch báº£o máº­t</a>
+                        cá»§a STU.
+                    </label>
+                </div>
+
+                {{-- Submit --}}
+                <button type="submit" class="rr-submit">
+                    <i class="fas fa-user-plus"></i>
+                    Táº¡o tÃ i khoáº£n
+                </button>
+
+                {{-- Footer --}}
+                <div class="rr-footer">
+                    ÄÃ£ cÃ³ tÃ i khoáº£n?
+                    <a href="{{ route('thi-sinh.dang-nhap') }}">ÄÄƒng nháº­p ngay</a>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    // === Toggle password 1 ===
+    function togglePw(fieldId, eyeId) {
+        const f = document.getElementById(fieldId);
+        const e = document.getElementById(eyeId);
+        if (!f) return;
+        const hidden = f.type === 'password';
+        f.type = hidden ? 'text' : 'password';
+        e.className = hidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+    }
+    document.getElementById('pw-toggle1').addEventListener('click', () => togglePw('mat_khau', 'pw-eye1'));
+    document.getElementById('pw-toggle2').addEventListener('click', () => togglePw('mat_khau_confirmation', 'pw-eye2'));
+
+    // === Icon color on focus ===
+    document.querySelectorAll('.rr-input').forEach(function(input) {
+        input.addEventListener('focus', function() {
+            const icon = this.parentElement.querySelector('.rr-input-icon');
+            if (icon) icon.style.color = 'var(--red)';
+        });
+        input.addEventListener('blur', function() {
+            const icon = this.parentElement.querySelector('.rr-input-icon');
+            if (icon) icon.style.color = 'var(--gray-500)';
+        });
+    });
+
+    // === Password strength ===
+    const pwInput  = document.getElementById('mat_khau');
+    const pwLabel  = document.getElementById('pw-label');
+    const bars     = [
+        document.getElementById('bar1'),
+        document.getElementById('bar2'),
+        document.getElementById('bar3'),
+        document.getElementById('bar4'),
+    ];
+    const colors   = ['#E24B4A','#F2B233','#22c55e','#15803d'];
+    const labels   = ['Yáº¿u','Trung bÃ¬nh','Máº¡nh','Ráº¥t máº¡nh'];
+
+    function calcStrength(pw) {
+        let score = 0;
+        if (pw.length >= 8)  score++;
+        if (/[A-Z]/.test(pw)) score++;
+        if (/[0-9]/.test(pw)) score++;
+        if (/[^A-Za-z0-9]/.test(pw)) score++;
+        return score;
+    }
+
+    pwInput.addEventListener('input', function() {
+        const val = this.value;
+        const score = val.length === 0 ? 0 : calcStrength(val);
+        bars.forEach((b, i) => {
+            b.style.background = i < score ? colors[score - 1] : 'var(--gray-100)';
+        });
+        pwLabel.textContent = val.length === 0 ? '' : labels[score - 1] || '';
+        pwLabel.style.color  = val.length === 0 ? '' : colors[score - 1];
+        checkMatch();
+    });
+
+    // === Password match ===
+    const pw2      = document.getElementById('mat_khau_confirmation');
+    const matchLbl = document.getElementById('pw-match-label');
+
+    function checkMatch() {
+        if (!pw2.value) { matchLbl.textContent = ''; return; }
+        if (pw2.value === pwInput.value) {
+            matchLbl.textContent = 'âœ“ Máº­t kháº©u khá»›p';
+            matchLbl.style.color = '#22c55e';
+            pw2.style.borderColor = '#22c55e';
+        } else {
+            matchLbl.textContent = 'âœ— Máº­t kháº©u chÆ°a khá»›p';
+            matchLbl.style.color = 'var(--red)';
+            pw2.style.borderColor = 'var(--red)';
+        }
+    }
+    pw2.addEventListener('input', checkMatch);
+
+    // === CCCD: chá»‰ nháº­p sá»‘ ===
+    document.getElementById('so_cccd').addEventListener('input', function() {
+        this.value = this.value.replace(/\D/g, '').slice(0, 12);
+    });
+</script>
+@endpush
+=== Modules/HeThong/resources/views/auth/thi-sinh/dang-nhap.blade.php ===
+{{-- Modules/HeThong/resources/views/auth/dang-nhap.blade.php --}}
+@extends('hethong::components.layouts.master')
+
+@section('title', 'ÄÄƒng nháº­p â€” STU Tuyá»ƒn Sinh')
+
+@section('styles')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --navy:       #005B96;
+        --navy-mid:   #0A6FB3;
+        --blue-dark:  #083A84;
+        --red:        #D71920;
+        --red-dark:   #B51218;
+        --red-light:  #F03A40;
+        --gold:       #F2B233;
+        --gold-light: #FFD15C;
+        --white:      #FFFFFF;
+        --text:       #1C2B39;
+        --gray-50:    #F7FAFC;
+        --gray-100:   #EAF0F5;
+        --gray-300:   #C7D3DF;
+        --gray-500:   #708399;
+        --gray-700:   #32485C;
+        --font-display: 'Playfair Display', serif;
+        --font-body:    'Be Vietnam Pro', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ===== PAGE WRAPPER ===== */
+    .login-page {
+        min-height: 100vh;
+        background: var(--gray-100);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 16px;
+        font-family: var(--font-body);
+    }
+
+    /* ===== CARD ===== */
+    .login-card {
+        width: 100%;
+        max-width: 920px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(13,27,62,.16), 0 4px 16px rgba(13,27,62,.08);
+        animation: cardIn .5s cubic-bezier(.22,.68,0,1.2) both;
+    }
+    @keyframes cardIn {
+        from { opacity: 0; transform: translateY(24px) scale(.97); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ===== LEFT PANEL ===== */
+    .login-left {
+        background: var(--navy);
+        padding: 48px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+    .login-left::before {
+        content: '';
+        position: absolute; top: -70px; right: -70px;
+        width: 240px; height: 240px;
+        border-radius: 50%;
+        background: rgba(242,178,51,.11);
+        pointer-events: none;
+    }
+    .login-left::after {
+        content: '';
+        position: absolute; bottom: -50px; left: -50px;
+        width: 200px; height: 200px;
+        border-radius: 50%;
+        background: rgba(215,25,32,.14);
+        pointer-events: none;
+    }
+    .login-left-deco {
+        position: absolute; bottom: 90px; right: -30px;
+        width: 120px; height: 120px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,.06);
+        pointer-events: none;
+    }
+
+    /* Logo */
+    .ll-logo {
+        display: flex; align-items: center; gap: 12px;
+        margin-bottom: 36px;
+        position: relative; z-index: 1;
+        animation: fadeUp .5s .1s both;
+    }
+    .ll-logo-mark {
+        width: 52px; height: 52px;
+        background: var(--red);
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--font-display); font-weight: 900; font-size: 18px;
+        color: #fff; letter-spacing: -1px; flex-shrink: 0;
+    }
+    .ll-logo-name { font-weight: 700; font-size: 13px; color: #fff; line-height: 1.3; }
+    .ll-logo-sub  { font-size: 10.5px; color: rgba(255,255,255,.45); margin-top: 1px; }
+
+    /* Headline */
+    .ll-headline {
+        font-family: var(--font-display);
+        font-size: 30px; font-weight: 900;
+        color: #fff; line-height: 1.22;
+        margin-bottom: 14px;
+        position: relative; z-index: 1;
+        animation: fadeUp .5s .15s both;
+    }
+    .ll-headline .accent { color: var(--gold-light); }
+
+    .ll-tagline {
+        font-size: 13px; color: rgba(255,255,255,.6);
+        line-height: 1.75; margin-bottom: 32px;
+        position: relative; z-index: 1;
+        animation: fadeUp .5s .2s both;
+    }
+
+    /* Stats */
+    .ll-stats {
+        display: flex; gap: 0;
+        position: relative; z-index: 1;
+        animation: fadeUp .5s .25s both;
+    }
+    .ll-stat {
+        flex: 1; text-align: center; padding: 0 10px;
+        border-right: 1px solid rgba(255,255,255,.1);
+    }
+    .ll-stat:last-child { border-right: none; }
+    .ll-stat .num {
+        font-family: var(--font-display); font-size: 24px; font-weight: 700;
+        color: var(--gold); line-height: 1;
+    }
+    .ll-stat .lbl {
+        font-size: 10px; color: rgba(255,255,255,.45);
+        text-transform: uppercase; letter-spacing: .06em; margin-top: 4px;
+    }
+
+    /* Bottom badge */
+    .ll-bottom { position: relative; z-index: 1; animation: fadeUp .5s .3s both; }
+    .ll-badge {
+        display: inline-flex; align-items: center; gap: 7px;
+        background: rgba(242,178,51,.14);
+        border: 1px solid rgba(242,178,51,.3);
+        color: var(--gold-light);
+        padding: 6px 14px; border-radius: 50px;
+        font-size: 11.5px; font-weight: 700; letter-spacing: .06em;
+        margin-bottom: 10px;
+    }
+    .ll-badge-dot {
+        width: 6px; height: 6px;
+        background: var(--gold); border-radius: 50%;
+        animation: blink 1.5s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .ll-hotline {
+        display: flex; align-items: center; gap: 6px;
+        font-size: 11.5px; color: rgba(255,255,255,.45);
+    }
+    .ll-hotline i { color: var(--gold); font-size: 13px; }
+
+    /* ===== RIGHT PANEL ===== */
+    .login-right {
+        background: var(--white);
+        padding: 48px 40px;
+        display: flex; flex-direction: column; justify-content: center;
+    }
+
+    .lr-header { margin-bottom: 28px; animation: fadeUp .5s .1s both; }
+    .lr-eyebrow {
+        font-size: 11px; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .1em; color: var(--red);
+        display: flex; align-items: center; gap: 8px;
+        margin-bottom: 8px;
+    }
+    .lr-eyebrow::before {
+        content: ''; display: block; width: 18px; height: 2px;
+        background: var(--red); border-radius: 2px;
+    }
+    .lr-title {
+        font-family: var(--font-display); font-size: 26px; font-weight: 700;
+        color: var(--navy); line-height: 1.2; margin-bottom: 4px;
+    }
+    .lr-subtitle { font-size: 13px; color: var(--gray-500); }
+
+    /* Alert */
+    .lr-alert {
+        background: var(--gray-100);
+        border-left: 3px solid var(--navy);
+        border-radius: 6px;
+        padding: 10px 14px;
+        font-size: 12.5px; color: var(--navy);
+        margin-bottom: 22px;
+        display: flex; align-items: center; gap: 8px;
+        animation: fadeUp .5s .15s both;
+    }
+    .lr-alert i { font-size: 15px; flex-shrink: 0; }
+
+    /* Status message (Laravel session) */
+    .lr-status {
+        background: #EAF7ED;
+        border-left: 3px solid #22c55e;
+        border-radius: 6px;
+        padding: 10px 14px;
+        font-size: 12.5px; color: #166534;
+        margin-bottom: 18px;
+        display: flex; align-items: center; gap: 8px;
+    }
+
+    /* Field */
+    .lr-field { margin-bottom: 16px; animation: fadeUp .5s .2s both; }
+    .lr-field + .lr-field { animation-delay: .25s; }
+    .lr-label {
+        display: block; font-size: 12.5px; font-weight: 600;
+        color: var(--navy); margin-bottom: 6px;
+    }
+    .lr-label .req { color: var(--red); }
+
+    .lr-input-wrap { position: relative; }
+    .lr-input-icon {
+        position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+        color: var(--gray-500); font-size: 15px; pointer-events: none;
+        transition: color .2s;
+    }
+    .lr-input {
+        width: 100%; padding: 10px 14px 10px 40px;
+        border: 1.5px solid var(--gray-300);
+        border-radius: 8px;
+        font-family: var(--font-body); font-size: 13.5px;
+        color: var(--text); background: var(--gray-50);
+        outline: none; transition: border-color .2s, background .2s, box-shadow .2s;
+    }
+    .lr-input:focus {
+        border-color: var(--red); background: #fff;
+        box-shadow: 0 0 0 3px rgba(215,25,32,.08);
+    }
+    .lr-input:focus ~ .lr-input-icon { color: var(--red); }
+    .lr-input::placeholder { color: #B0BFCC; }
+    .lr-input.is-invalid { border-color: var(--red); background: #fff9f9; }
+
+    .lr-pw-toggle {
+        position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+        background: none; border: none; cursor: pointer;
+        color: var(--gray-500); font-size: 15px; padding: 0; line-height: 1;
+        transition: color .2s;
+    }
+    .lr-pw-toggle:hover { color: var(--navy); }
+
+    .lr-error {
+        font-size: 11.5px; color: var(--red); margin-top: 5px;
+        display: flex; align-items: center; gap: 5px;
+    }
+    .lr-error i { font-size: 12px; }
+
+    /* Remember + forgot row */
+    .lr-row {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 22px; animation: fadeUp .5s .3s both;
+    }
+    .lr-remember {
+        display: flex; align-items: center; gap: 7px;
+        font-size: 12.5px; color: var(--gray-500); cursor: pointer;
+    }
+    .lr-remember input[type=checkbox] { accent-color: var(--red); width: 14px; height: 14px; }
+    .lr-forgot {
+        font-size: 12.5px; font-weight: 600; color: var(--navy);
+        background: none; border: none; cursor: pointer; padding: 0;
+        font-family: var(--font-body); transition: color .2s;
+    }
+    .lr-forgot:hover { color: var(--red); text-decoration: underline; }
+
+    /* Submit button */
+    .lr-submit {
+        width: 100%; padding: 12px 24px;
+        background: var(--red); color: #fff; border: none;
+        border-radius: 50px;
+        font-family: var(--font-body); font-size: 14px; font-weight: 700;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        transition: background .2s, transform .15s, box-shadow .2s;
+        box-shadow: 0 4px 16px rgba(215,25,32,.28);
+        margin-bottom: 18px;
+        animation: fadeUp .5s .35s both;
+    }
+    .lr-submit:hover {
+        background: var(--red-dark); transform: translateY(-1px);
+        box-shadow: 0 6px 22px rgba(215,25,32,.38);
+    }
+    .lr-submit:active { transform: translateY(0); }
+
+    /* Divider */
+    .lr-divider {
+        display: flex; align-items: center; gap: 12px;
+        margin-bottom: 16px; animation: fadeUp .5s .4s both;
+    }
+    .lr-divider-line { flex: 1; height: 1px; background: var(--gray-100); }
+    .lr-divider-text { font-size: 11.5px; color: var(--gray-500); white-space: nowrap; }
+
+    /* Footer */
+    .lr-footer {
+        text-align: center; font-size: 12.5px; color: var(--gray-500);
+        animation: fadeUp .5s .45s both;
+    }
+    .lr-footer a { color: var(--red); font-weight: 600; text-decoration: none; }
+    .lr-footer a:hover { text-decoration: underline; }
+
+    /* Keyframes */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 680px) {
+        .login-card { grid-template-columns: 1fr; max-width: 420px; }
+        .login-left { padding: 32px 28px; }
+        .ll-stats { display: none; }
+        .ll-headline { font-size: 24px; }
+        .login-right { padding: 32px 28px; }
+    }
+</style>
+@endsection
+
+@section('content')
+<div class="login-page">
+    <div class="login-card">
+
+        {{-- ===== LEFT PANEL ===== --}}
+        <div class="login-left">
+            <div class="login-left-deco"></div>
+
+            <div style="position:relative;z-index:1">
+                {{-- Logo --}}
+               <a href="{{ url('/') }}" class="navbar-logo" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+    <img src="{{ asset('imgs/logostu.png') }}" 
+         alt="Logo STU" 
+         style="height:40px; width:auto; display:block; flex-shrink:0;">
+    <div style="line-height:1.3; border-left:1px solid #C7D3DF; padding-left:10px;">
+        <div style="font-weight:800; font-size:13px; color:#005B96; white-space:nowrap;">ÄH CÃ´ng nghá»‡ SÃ i GÃ²n</div>
+        <div style="font-size:10px; color:#708399; font-weight:500; white-space:nowrap;">Saigon Technology University</div>
+    </div>
+</a>
+<br>
+                {{-- Headline --}}
+                <h1 class="ll-headline">
+                    Kiáº¿n táº¡o<br>tÆ°Æ¡ng lai cÃ¹ng<br><span class="accent">STU 2026</span>
+                </h1>
+                <p class="ll-tagline">
+                    3.000 chá»‰ tiÃªu â€” 18 ngÃ nh há»c.<br>
+                    Há»c bá»•ng lÃªn Ä‘áº¿n 100% há»c phÃ­<br>dÃ nh cho tÃ¢n sinh viÃªn xuáº¥t sáº¯c.
+                </p>
+
+                {{-- Stats --}}
+                <div class="ll-stats">
+                    <div class="ll-stat">
+                        <div class="num">30+</div>
+                        <div class="lbl">NÄƒm Ä‘Ã o táº¡o</div>
+                    </div>
+                    <div class="ll-stat">
+                        <div class="num">96%</div>
+                        <div class="lbl">CÃ³ viá»‡c lÃ m</div>
+                    </div>
+                    <div class="ll-stat">
+                        <div class="num">11k+</div>
+                        <div class="lbl">Sinh viÃªn</div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Bottom badge --}}
+            <div class="ll-bottom">
+                <div class="ll-badge">
+                    <span class="ll-badge-dot"></span>
+                    Tuyá»ƒn sinh 2026 Ä‘ang má»Ÿ
+                </div>
+                <div class="ll-hotline">
+                    <i class="fas fa-phone-alt"></i>
+                    Hotline: (84.8) 3850 5520
+                </div>
+            </div>
+        </div>
+
+        {{-- ===== RIGHT PANEL ===== --}}
+        <div class="login-right">
+
+            {{-- Header --}}
+            <div class="lr-header">
+                <div class="lr-eyebrow">Há»‡ thá»‘ng tuyá»ƒn sinh</div>
+                <h2 class="lr-title">ÄÄƒng nháº­p</h2>
+                <p class="lr-subtitle">ChÃ o má»«ng báº¡n â€” vui lÃ²ng nháº­p thÃ´ng tin Ä‘á»ƒ tiáº¿p tá»¥c</p>
+            </div>
+
+            {{-- Session status --}}
+            @if(session('status'))
+                <div class="lr-status">
+                    <i class="fas fa-check-circle"></i>
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            {{-- Info alert --}}
+            <div class="lr-alert">
+                <i class="fas fa-info-circle"></i>
+                DÃ¹ng tÃ i khoáº£n Ä‘Ã£ Ä‘Äƒng kÃ½ trÃªn cá»•ng xÃ©t tuyá»ƒn STU
+            </div>
+
+            {{-- FORM --}}
+            <form method="POST" action="{{ route('thi-sinh.dang-nhap') }}" novalidate>
+                @csrf
+
+                {{-- Email --}}
+                <div class="lr-field">
+                    <label class="lr-label" for="email">
+                        Email <span class="req">*</span>
+                    </label>
+                    <div class="lr-input-wrap">
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ old('email') }}"
+                            class="lr-input {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                            
+                            autocomplete="email"
+                            autofocus
+                        >
+                        <i class="fas fa-envelope lr-input-icon"></i>
+                    </div>
+                    @error('email')
+                        <div class="lr-error">
+                            <i class="fas fa-exclamation-circle"></i>{{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                {{-- Password --}}
+                <div class="lr-field">
+                    <label class="lr-label" for="mat_khau">
+                        Máº­t kháº©u <span class="req">*</span>
+                    </label>
+                    <div class="lr-input-wrap">
+                        <input
+                            type="password"
+                            id="mat_khau"
+                            name="mat_khau"
+                            class="lr-input {{ $errors->has('mat_khau') ? 'is-invalid' : '' }}"
+                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                            autocomplete="current-password"
+                            style="padding-right:40px"
+                        >
+                        <i class="fas fa-lock lr-input-icon"></i>
+                        <button type="button" class="lr-pw-toggle" id="pw-toggle" aria-label="Hiá»‡n/áº©n máº­t kháº©u">
+                            <i class="fas fa-eye" id="pw-eye"></i>
+                        </button>
+                    </div>
+                    @error('mat_khau')
+                        <div class="lr-error">
+                            <i class="fas fa-exclamation-circle"></i>{{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                {{-- Remember + Forgot --}}
+                <div class="lr-row">
+                    <label class="lr-remember">
+                        <input type="checkbox" name="nho_toi" {{ old('nho_toi') ? 'checked' : '' }}>
+                        Nhá»› Ä‘Äƒng nháº­p
+                    </label>
+                    <a href="{{ route('admin.quen-mat-khau') }}" class="lr-forgot">QuÃªn máº­t kháº©u?</a>
+                </div>
+
+                {{-- Submit --}}
+                <button type="submit" class="lr-submit">
+                    <i class="fas fa-sign-in-alt"></i>
+                    ÄÄƒng nháº­p
+                </button>
+
+                {{-- Divider --}}
+                <div class="lr-divider">
+                    <div class="lr-divider-line"></div>
+                    <span class="lr-divider-text">hoáº·c</span>
+                    <div class="lr-divider-line"></div>
+                </div>
+
+                {{-- Register link --}}
+                <div class="lr-footer">
+                    ChÆ°a cÃ³ tÃ i khoáº£n?
+                    <a href="{{ route('thi-sinh.dang-ky') }}">ÄÄƒng kÃ½ ngay</a>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    // Toggle show/hide password
+    const pwToggle = document.getElementById('pw-toggle');
+    const pwField  = document.getElementById('mat_khau');
+    const pwEye    = document.getElementById('pw-eye');
+
+    if (pwToggle) {
+        pwToggle.addEventListener('click', function () {
+            const isHidden = pwField.type === 'password';
+            pwField.type = isHidden ? 'text' : 'password';
+            pwEye.className = isHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+        });
+    }
+
+    // Icon color on input focus (since :focus-within not supported on sibling)
+    document.querySelectorAll('.lr-input').forEach(function(input) {
+        input.addEventListener('focus', function() {
+            const icon = this.parentElement.querySelector('.lr-input-icon');
+            if (icon) icon.style.color = 'var(--red)';
+        });
+        input.addEventListener('blur', function() {
+            const icon = this.parentElement.querySelector('.lr-input-icon');
+            if (icon) icon.style.color = 'var(--gray-500)';
+        });
+    });
+</script>
+@endpush
+=== Modules/HeThong/resources/views/admin/dashboard.blade.php ===
+@extends('layouts.admin')
+
+@section('title', 'Dashboard â€” STU Tuyá»ƒn Sinh')
+@section('page_title', 'Tá»•ng quan')
+
+@section('content')
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>0</h3>
+                <p>ThÃ­ sinh Ä‘Äƒng kÃ½</p>
+            </div>
+            <div class="icon"><i class="fas fa-users"></i></div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>0</h3>
+                <p>Há»“ sÆ¡ Ä‘Ã£ duyá»‡t</p>
+            </div>
+            <div class="icon"><i class="fas fa-file-alt"></i></div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>0</h3>
+                <p>Chá» xÃ©t duyá»‡t</p>
+            </div>
+            <div class="icon"><i class="fas fa-clock"></i></div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>0</h3>
+                <p>YÃªu cáº§u tÆ° váº¥n</p>
+            </div>
+            <div class="icon"><i class="fas fa-comments"></i></div>
+        </div>
+    </div>
+</div>
+@endsection
+=== Modules/HeThong/resources/views/admin/tu-van/dashboard.blade.php ===
+@extends('layouts.nhanvientuvan')
+
+@section('title', 'Dashboard TÆ° Váº¥n ViÃªn')
+@section('page_title', 'Tá»•ng quan')
+
+@section('content')
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-headset mr-2"></i>
+                    Xin chÃ o, {{ Auth::guard('nhan_vien_tu_van')->user()->ma_nhan_vien }}!
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="info-box bg-info">
+                            <span class="info-box-icon"><i class="fas fa-comments"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">YÃªu cáº§u tÆ° váº¥n</span>
+                                <span class="info-box-number">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box bg-warning">
+                            <span class="info-box-icon"><i class="fas fa-clock"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Chá» xá»­ lÃ½</span>
+                                <span class="info-box-number">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box bg-success">
+                            <span class="info-box-icon"><i class="fas fa-check-circle"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">ÄÃ£ xá»­ lÃ½</span>
+                                <span class="info-box-number">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-3">
+                    <i class="fas fa-info-circle"></i>
+                    Module tÆ° váº¥n Ä‘ang Ä‘Æ°á»£c xÃ¢y dá»±ng. Sáº½ cáº­p nháº­t sá»›m!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+=== Modules/HeThong/resources/views/admin/nhan-vien-tu-van/index.blade.php ===
+@extends('layouts.admin')
+
+@section('title', 'Quáº£n lÃ½ NhÃ¢n viÃªn tÆ° váº¥n')
+@section('page_title', 'NhÃ¢n viÃªn tÆ° váº¥n')
+
+@section('content')
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Danh sÃ¡ch nhÃ¢n viÃªn tÆ° váº¥n</h3>
+        <a href="{{ route('admin.nhan-vien-tu-van.create') }}" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus"></i> ThÃªm má»›i
+        </a>
+    </div>
+    <div class="card-body">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>MÃ£ NV</th>
+                    <th>Email</th>
+                    <th>PhÃ²ng ban</th>
+                    <th>ChuyÃªn mÃ´n</th>
+                    <th>Tráº¡ng thÃ¡i</th>
+                    <th>HÃ nh Ä‘á»™ng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($danhSach as $nv)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $nv->ma_nhan_vien }}</td>
+                    <td>{{ $nv->email }}</td>
+                    <td>{{ $nv->phong_ban }}</td>
+                    <td>{{ $nv->chuyen_mon ?? 'â€”' }}</td>
+                    <td>
+                        @if($nv->trang_thai)
+                            <span class="badge badge-success">Hoáº¡t Ä‘á»™ng</span>
+                        @else
+                            <span class="badge badge-danger">Bá»‹ khÃ³a</span>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('admin.nhan-vien-tu-van.edit', $nv) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="{{ route('admin.nhan-vien-tu-van.destroy', $nv) }}" method="POST" class="d-inline"
+                            onsubmit="return confirm('XÃ¡c nháº­n xÃ³a?')">
+                            @csrf @method('DELETE')
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                @empty
+                <tr><td colspan="7" class="text-center">ChÆ°a cÃ³ dá»¯ liá»‡u</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+        {{ $danhSach->links() }}
+    </div>
+</div>
+@endsection
+=== Modules/HeThong/resources/views/admin/nhan-vien-tu-van/form.blade.php ===
+@extends('layouts.admin')
+
+@section('title', isset($nhanVienTuVan) ? 'Sá»­a NVTV' : 'ThÃªm NVTV')
+@section('page_title', isset($nhanVienTuVan) ? 'Sá»­a nhÃ¢n viÃªn tÆ° váº¥n' : 'ThÃªm nhÃ¢n viÃªn tÆ° váº¥n')
+
+@section('content')
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{{ isset($nhanVienTuVan) ? 'Cáº­p nháº­t thÃ´ng tin' : 'Táº¡o má»›i' }}</h3>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ isset($nhanVienTuVan) ? route('admin.nhan-vien-tu-van.update', $nhanVienTuVan) : route('admin.nhan-vien-tu-van.store') }}">
+            @csrf
+            @if(isset($nhanVienTuVan)) @method('PUT') @endif
+
+            <div class="form-group">
+                <label>MÃ£ nhÃ¢n viÃªn</label>
+                <input type="text" name="ma_nhan_vien"
+                    value="{{ old('ma_nhan_vien', $nhanVienTuVan->ma_nhan_vien ?? '') }}"
+                    class="form-control {{ $errors->has('ma_nhan_vien') ? 'is-invalid' : '' }}"
+                    placeholder="VD: NVTV001">
+                @error('ma_nhan_vien')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label>Email Ä‘Äƒng nháº­p</label>
+                <input type="email" name="email"
+                    value="{{ old('email', $nhanVienTuVan->email ?? '') }}"
+                    class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}">
+                @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label>Máº­t kháº©u {{ isset($nhanVienTuVan) ? '(Ä‘á»ƒ trá»‘ng náº¿u khÃ´ng Ä‘á»•i)' : '' }}</label>
+                <input type="password" name="mat_khau"
+                    class="form-control {{ $errors->has('mat_khau') ? 'is-invalid' : '' }}">
+                @error('mat_khau')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label>PhÃ²ng ban</label>
+                <input type="text" name="phong_ban"
+                    value="{{ old('phong_ban', $nhanVienTuVan->phong_ban ?? '') }}"
+                    class="form-control {{ $errors->has('phong_ban') ? 'is-invalid' : '' }}">
+                @error('phong_ban')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label>ChuyÃªn mÃ´n</label>
+                <input type="text" name="chuyen_mon"
+                    value="{{ old('chuyen_mon', $nhanVienTuVan->chuyen_mon ?? '') }}"
+                    class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                {{ isset($nhanVienTuVan) ? 'Cáº­p nháº­t' : 'Táº¡o má»›i' }}
+            </button>
+            <a href="{{ route('admin.nhan-vien-tu-van.index') }}" class="btn btn-secondary">Há»§y</a>
+        </form>
+    </div>
+</div>
+@endsection
+=== Modules/HeThong/resources/views/admin/admin/index.blade.php ===
+@extends('layouts.admin')
+
+@section('title', 'Quáº£n lÃ½ Admin')
+@section('page_title', 'Quáº£n lÃ½ Admin')
+
+@section('content')
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Danh sÃ¡ch Admin</h3>
+        <a href="{{ route('admin.quan-ly.create') }}" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus"></i> ThÃªm má»›i
+        </a>
+    </div>
+    <div class="card-body">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Há» tÃªn</th>
+                    <th>Email</th>
+                    <th>Sá»‘ Ä‘iá»‡n thoáº¡i</th>
+                    <th>Tráº¡ng thÃ¡i</th>
+                    <th>ÄÄƒng nháº­p cuá»‘i</th>
+                    <th>HÃ nh Ä‘á»™ng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($danhSach as $admin)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $admin->ho_ten }}</td>
+                    <td>{{ $admin->email }}</td>
+                    <td>{{ $admin->so_dien_thoai }}</td>
+                    <td>
+                        @if($admin->trang_thai)
+                            <span class="badge badge-success">Hoáº¡t Ä‘á»™ng</span>
+                        @else
+                            <span class="badge badge-danger">Bá»‹ khÃ³a</span>
+                        @endif
+                    </td>
+                    <td>{{ $admin->lan_dang_nhap_cuoi?->format('d/m/Y H:i') ?? 'ChÆ°a Ä‘Äƒng nháº­p' }}</td>
+                    <td>
+                        <a href="{{ route('admin.quan-ly.edit', $admin) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="{{ route('admin.quan-ly.khoa', $admin) }}" method="POST" class="d-inline">
+                            @csrf @method('PATCH')
+                            <button class="btn btn-sm {{ $admin->trang_thai ? 'btn-secondary' : 'btn-success' }}">
+                                <i class="fas fa-{{ $admin->trang_thai ? 'lock' : 'unlock' }}"></i>
+                            </button>
+                        </form>
+                        <form action="{{ route('admin.quan-ly.destroy', $admin) }}" method="POST" class="d-inline"
+                            onsubmit="return confirm('XÃ¡c nháº­n xÃ³a?')">
+                            @csrf @method('DELETE')
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                @empty
+                <tr><td colspan="7" class="text-center">ChÆ°a cÃ³ dá»¯ liá»‡u</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+        {{ $danhSach->links() }}
+    </div>
+</div>
+@endsection
+=== Modules/HeThong/resources/views/admin/admin/form.blade.php ===
+@extends('layouts.admin')
+
+@section('title', isset($admin) ? 'Sá»­a Admin' : 'ThÃªm Admin')
+@section('page_title', isset($admin) ? 'Sá»­a Admin' : 'ThÃªm Admin')
+
+@section('content')
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{{ isset($admin) ? 'Cáº­p nháº­t thÃ´ng tin' : 'Táº¡o tÃ i khoáº£n má»›i' }}</h3>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ isset($admin) ? route('admin.quan-ly.update', $admin) : route('admin.quan-ly.store') }}">
+            @csrf
+            @if(isset($admin)) @method('PUT') @endif
+
+            <div class="form-group">
+                <label>Há» tÃªn</label>
+                <input type="text" name="ho_ten" value="{{ old('ho_ten', $admin->ho_ten ?? '') }}"
+                    class="form-control {{ $errors->has('ho_ten') ? 'is-invalid' : '' }}">
+                @error('ho_ten')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ old('email', $admin->email ?? '') }}"
+                    class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}">
+                @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label>Sá»‘ Ä‘iá»‡n thoáº¡i</label>
+                <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai', $admin->so_dien_thoai ?? '') }}"
+                    class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Máº­t kháº©u {{ isset($admin) ? '(Ä‘á»ƒ trá»‘ng náº¿u khÃ´ng Ä‘á»•i)' : '' }}</label>
+                <input type="password" name="mat_khau"
+                    class="form-control {{ $errors->has('mat_khau') ? 'is-invalid' : '' }}">
+                @error('mat_khau')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                {{ isset($admin) ? 'Cáº­p nháº­t' : 'Táº¡o má»›i' }}
+            </button>
+            <a href="{{ route('admin.quan-ly.index') }}" class="btn btn-secondary">Há»§y</a>
+        </form>
+    </div>
+</div>
+@endsection
+=== Modules/HeThong/resources/views/admin/thi-sinh/index.blade.php ===
+@extends('layouts.admin')
+
+@section('title', 'Danh sÃ¡ch thÃ­ sinh')
+@section('page_title', 'Danh sÃ¡ch thÃ­ sinh')
+
+@section('content')
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Danh sÃ¡ch thÃ­ sinh Ä‘Äƒng kÃ½</h3>
+    </div>
+    <div class="card-body">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Há» tÃªn</th>
+                    <th>Email</th>
+                    <th>Sá»‘ CCCD</th>
+                    <th>Sá»‘ Ä‘iá»‡n thoáº¡i</th>
+                    <th>NgÃ y sinh</th>
+                    <th>TrÆ°á»ng THPT</th>
+                    <th>ÄÄƒng kÃ½ lÃºc</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($danhSach as $ts)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $ts->ho_ten }}</td>
+                    <td>{{ $ts->email }}</td>
+                    <td>{{ $ts->so_cccd }}</td>
+                    <td>{{ $ts->so_dien_thoai }}</td>
+                    <td>{{ $ts->ngay_sinh?->format('d/m/Y') }}</td>
+                    <td>{{ $ts->truong_thpt ?? 'â€”' }}</td>
+                    <td>{{ $ts->created_at->format('d/m/Y H:i') }}</td>
+                </tr>
+                @empty
+                <tr><td colspan="8" class="text-center">ChÆ°a cÃ³ thÃ­ sinh nÃ o</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+        {{ $danhSach->links() }}
+    </div>
+</div>
+@endsection
+

@@ -1,0 +1,11 @@
+{
+    "name": "HoiAI",
+    "alias": "hoiai",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\HoiAI\\Providers\\HoiAIServiceProvider"
+    ],
+    "files": []
+}

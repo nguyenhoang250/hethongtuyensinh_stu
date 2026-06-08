@@ -1,0 +1,11 @@
+{
+    "name": "HocBong",
+    "alias": "hocbong",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\HocBong\\Providers\\HocBongServiceProvider"
+    ],
+    "files": []
+}

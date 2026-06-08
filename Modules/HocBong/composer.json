@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/hocbong",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\HocBong\\": "app/",
+            "Modules\\HocBong\\Database\\Factories\\": "database/factories/",
+            "Modules\\HocBong\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\HocBong\\Tests\\": "tests/"
+        }
+    }
+}

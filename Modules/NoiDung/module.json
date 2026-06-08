@@ -1,0 +1,11 @@
+{
+    "name": "NoiDung",
+    "alias": "noidung",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NoiDung\\Providers\\NoiDungServiceProvider"
+    ],
+    "files": []
+}

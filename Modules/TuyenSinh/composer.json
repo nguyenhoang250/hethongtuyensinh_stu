@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/tuyensinh",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\TuyenSinh\\": "app/",
+            "Modules\\TuyenSinh\\Database\\Factories\\": "database/factories/",
+            "Modules\\TuyenSinh\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\TuyenSinh\\Tests\\": "tests/"
+        }
+    }
+}

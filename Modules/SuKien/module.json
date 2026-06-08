@@ -1,0 +1,11 @@
+{
+    "name": "SuKien",
+    "alias": "sukien",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SuKien\\Providers\\SuKienServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,11 @@
+{
+    "name": "DaoTao",
+    "alias": "daotao",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DaoTao\\Providers\\DaoTaoServiceProvider"
+    ],
+    "files": []
+}

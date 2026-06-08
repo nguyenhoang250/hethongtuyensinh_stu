@@ -1,0 +1,14 @@
+{
+    "name": "HeThong",
+    "alias": "hethong",
+    "description": "Module hệ thống lõi — Auth, Admin, NhanVienTuVan",
+    "keywords": [],
+    "priority": 1,
+    "providers": [
+        "Modules\\HeThong\\Providers\\HeThongServiceProvider",
+        "Modules\\HeThong\\Providers\\RouteServiceProvider",
+        "Modules\\HeThong\\Providers\\EventServiceProvider"
+    ],
+    "aliases": {},
+    "files": []
+}

@@ -1,0 +1,11 @@
+{
+    "name": "TuVan",
+    "alias": "tuvan",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TuVan\\Providers\\TuVanServiceProvider"
+    ],
+    "files": []
+}
