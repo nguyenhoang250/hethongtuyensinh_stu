@@ -50,8 +50,9 @@
     .nganh-tab { padding: 7px 18px; border-radius: 50px; font-size: 13px; font-weight: 600; border: 1.5px solid var(--gray-300); color: var(--gray-500); cursor: pointer; transition: all .2s; background: white; }
     .nganh-tab.on { background: linear-gradient(135deg, var(--red), var(--red-light)); color: white; border-color: var(--red); }
     .nganh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-    .nganh-card { background: white; border: 1px solid var(--gray-100); border-radius: var(--radius-md); padding: 20px; display: flex; align-items: flex-start; gap: 14px; transition: all .25s; }
+    .nganh-card { background: white; border: 1px solid var(--gray-100); border-radius: var(--radius-md); padding: 20px; display: flex; align-items: flex-start; gap: 14px; transition: all .25s; text-decoration: none; }
     .nganh-card:hover { border-color: var(--red); box-shadow: var(--shadow-card); }
+    .nganh-card[style*="display:none"] { display: none !important; }
     .nganh-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--gray-50); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
     .nganh-info { flex: 1; min-width: 0; }
     .nganh-name { font-weight: 700; font-size: 14px; color: var(--navy); line-height: 1.4; margin-bottom: 4px; }
@@ -60,7 +61,7 @@
     .nganh-score { font-size: 11px; font-weight: 700; background: rgba(200,16,46,.08); color: var(--red); padding: 2px 8px; border-radius: 4px; margin-top: 6px; display: inline-block; }
 
     /* ===== TIN TUC ===== */
-    .news-featured { border-radius: var(--radius-lg); overflow: hidden; background: white; box-shadow: var(--shadow-card); transition: box-shadow .3s; }
+    .news-featured { border-radius: var(--radius-lg); overflow: hidden; background: white; box-shadow: var(--shadow-card); transition: box-shadow .3s; text-decoration: none; display: block; }
     .news-featured:hover { box-shadow: var(--shadow-hover); }
     .news-featured .img-wrap { height: 220px; overflow: hidden; }
     .news-featured .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
@@ -69,7 +70,7 @@
     .news-tag { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--red); margin-bottom: 8px; }
     .news-title { font-weight: 700; font-size: 15.5px; color: var(--navy); line-height: 1.45; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .news-date { font-size: 12px; color: var(--gray-500); display: flex; align-items: center; gap: 6px; }
-    .news-item { background: white; border-radius: var(--radius-md); overflow: hidden; display: flex; gap: 14px; padding: 14px; box-shadow: var(--shadow-card); transition: box-shadow .3s; }
+    .news-item { background: white; border-radius: var(--radius-md); overflow: hidden; display: flex; gap: 14px; padding: 14px; box-shadow: var(--shadow-card); transition: box-shadow .3s; text-decoration: none; }
     .news-item:hover { box-shadow: var(--shadow-hover); }
     .news-item .thumb { width: 80px; height: 68px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
     .news-item .thumb img { width: 100%; height: 100%; object-fit: cover; }
@@ -78,7 +79,7 @@
 
     /* ===== SU KIEN ===== */
     .sukien-list { display: flex; flex-direction: column; gap: 14px; }
-    .sukien-item { background: white; border-radius: var(--radius-md); padding: 18px 20px; display: flex; align-items: center; gap: 18px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-card); transition: all .25s; }
+    .sukien-item { background: white; border-radius: var(--radius-md); padding: 18px 20px; display: flex; align-items: center; gap: 18px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-card); transition: all .25s; text-decoration: none; }
     .sukien-item:hover { border-color: var(--red); transform: translateX(4px); }
     .sukien-date { text-align: center; flex-shrink: 0; width: 52px; }
     .sukien-date .day { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--red); line-height: 1; }
@@ -96,7 +97,7 @@
 
     /* ===== HOC BONG ===== */
     .hocbong-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .hocbong-card { border-radius: var(--radius-lg); overflow: hidden; position: relative; background: var(--navy); color: white; padding: 32px 28px; min-height: 200px; display: flex; flex-direction: column; justify-content: flex-end; }
+    .hocbong-card { border-radius: var(--radius-lg); overflow: hidden; position: relative; background: var(--navy); color: white; padding: 32px 28px; min-height: 200px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; }
     .hocbong-card .bg-deco { position: absolute; top: -20px; right: -20px; width: 140px; height: 140px; border-radius: 50%; background: rgba(255,255,255,.05); pointer-events: none; }
     .hocbong-card .bg-deco2 { position: absolute; bottom: -40px; right: 20px; width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,.04); pointer-events: none; }
     .hocbong-card.red { background: linear-gradient(135deg, var(--red-dark), var(--red-light)); }
@@ -111,8 +112,7 @@
     /* ===== ONG KINH ===== */
     .okgrid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
     .ok-main-img { position: relative; border-radius: var(--radius-lg); overflow: hidden; height: 320px; }
-    .ok-main-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
-    .ok-main-img:hover img { transform: scale(1.03); }
+    .ok-main-img img { width: 100%; height: 100%; object-fit: cover; }
     .ok-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.25); }
     .ok-play i { width: 68px; height: 68px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--red); font-size: 24px; padding-left: 5px; box-shadow: 0 8px 32px rgba(0,0,0,.3); transition: transform .2s, box-shadow .2s; }
     .ok-play:hover i { transform: scale(1.1); box-shadow: 0 12px 40px rgba(0,0,0,.4); }
@@ -134,7 +134,7 @@
     .nckh-img img { width: 100%; height: 100%; object-fit: cover; }
     .nckh-caption { padding: 40px 36px; display: flex; flex-direction: column; justify-content: center; background: white; }
     .nckh-date { font-size: 13px; color: var(--red); font-weight: 600; margin-bottom: 12px; display: block; }
-    .nckh-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 14px; display: block; transition: color .2s; }
+    .nckh-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 14px; display: block; transition: color .2s; text-decoration: none; }
     .nckh-title:hover { color: var(--red); }
     .nckh-desc { font-size: 14px; color: var(--gray-500); line-height: 1.7; margin-bottom: 24px; }
     .nckh-controls { display: flex; gap: 10px; justify-content: center; margin-top: 24px; }
@@ -150,7 +150,7 @@
     .visao-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .visao-img-badge { position: absolute; bottom: 20px; left: 20px; background: white; color: var(--navy); font-weight: 700; font-size: 15px; padding: 10px 20px; border-radius: 50px; box-shadow: 0 4px 20px rgba(0,0,0,.15); }
     .visao-cards { display: flex; flex-direction: column; gap: 16px; }
-    .visao-card { background: white; border: 1.5px solid var(--gray-100); border-radius: var(--radius-md); padding: 22px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all .25s; }
+    .visao-card { background: white; border: 1.5px solid var(--gray-100); border-radius: var(--radius-md); padding: 22px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all .25s; text-decoration: none; }
     .visao-card:hover { border-color: var(--red); box-shadow: var(--shadow-hover); transform: translateX(4px); }
     .visao-card-left { display: flex; align-items: flex-start; gap: 16px; flex: 1; }
     .visao-icon { width: 48px; height: 48px; flex-shrink: 0; background: rgba(200,16,46,.08); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--red); font-size: 20px; }
@@ -182,6 +182,7 @@
     select.form-control { cursor: pointer; }
     .btn-submit { width: 100%; padding: 13px; background: var(--red); color: white; border: none; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 15px; font-weight: 700; cursor: pointer; transition: all .25s; box-shadow: 0 4px 16px rgba(200,16,46,.3); display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px; }
     .btn-submit:hover { background: var(--red-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,16,46,.4); }
+    .alert-success { background: #d1fae5; border: 1px solid #6ee7b7; color: #065f46; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; font-weight: 500; }
 
     /* ===== RESPONSIVE ===== */
     @@media (max-width: 1024px) {
@@ -211,176 +212,189 @@
 @section('content')
 
 {{-- ===== HERO SLIDER ===== --}}
+{{--
+    Nguồn: bảng Banner (vi_tri='trang_chu', is_hien_thi=1, còn trong hạn ngày)
+    Nếu chưa có banner nào trong DB thì hiện slide mặc định bên dưới
+--}}
 <section class="hero" id="hero">
-    {{-- Slide 1 --}}
-    <div class="hero-slide active">
-        <div class="bg" style="background-image:url('https://stu.exproweb.com/upload/images/STU001/Banner/BANNER_2026.png')"></div>
-        <div class="hero-content">
-            <div class="hero-badge"><span class="dot"></span>Tuyển sinh 2026 đang mở</div>
-            <h1>Kiến tạo tương lai<br>cùng <span class="accent">STU</span></h1>
-            <p>3.000 chỉ tiêu — 18 ngành học — 5 phương thức xét tuyển.<br>Học bổng lên đến 100% học phí dành cho tân sinh viên xuất sắc.</p>
-            <div class="hero-ctas">
-                <a href="{{ url('/ho-so/dang-ky') }}" class="hero-cta-primary"><i class="fas fa-rocket"></i> Đăng ký ngay</a>
-                <a href="{{ url('/nganh-hoc') }}" class="hero-cta-secondary"><i class="fas fa-search"></i> Khám phá ngành học</a>
+    @if($bannerList->isNotEmpty())
+        @foreach($bannerList as $i => $banner)
+            <div class="hero-slide {{ $i === 0 ? 'active' : '' }}">
+                <div class="bg" style="background-image:url('{{ asset($banner->duong_dan_anh) }}')"></div>
+                <div class="hero-content">
+                    <div class="hero-badge"><span class="dot"></span>Tuyển sinh 2026 đang mở</div>
+                    <h1>{{ $banner->tieu_de }}</h1>
+                    @if($banner->mo_ta)
+                        <p>{{ $banner->mo_ta }}</p>
+                    @endif
+                    <div class="hero-ctas">
+                        <a href="{{ url('/ho-so/dang-ky') }}" class="hero-cta-primary">
+                            <i class="fas fa-rocket"></i> Đăng ký ngay
+                        </a>
+                        @if($banner->url_lien_ket)
+                            <a href="{{ $banner->url_lien_ket }}" class="hero-cta-secondary">
+                                <i class="fas fa-info-circle"></i> Xem thêm
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @else
+        {{-- Slide dự phòng khi DB chưa có banner --}}
+        <div class="hero-slide active">
+            <div class="bg" style="background-image:url('https://stu.exproweb.com/upload/images/STU001/Banner/BANNER_2026.png')"></div>
+            <div class="hero-content">
+                <div class="hero-badge"><span class="dot"></span>Tuyển sinh 2026 đang mở</div>
+                <h1>Kiến tạo tương lai<br>cùng <span class="accent">STU</span></h1>
+                <p>3.000 chỉ tiêu — 18 ngành học — 5 phương thức xét tuyển.<br>Học bổng lên đến 100% học phí.</p>
+                <div class="hero-ctas">
+                    <a href="{{ url('/ho-so/dang-ky') }}" class="hero-cta-primary"><i class="fas fa-rocket"></i> Đăng ký ngay</a>
+                    <a href="{{ url('/nganh-hoc') }}" class="hero-cta-secondary"><i class="fas fa-search"></i> Khám phá ngành học</a>
+                </div>
             </div>
         </div>
-    </div>
-    {{-- Slide 2 --}}
-    <div class="hero-slide">
-        <div class="bg" style="background-image:url('https://stu.exproweb.com/upload/images/banner/banner-2.jpg')"></div>
-        <div class="hero-content">
-            <div class="hero-badge"><span class="dot"></span>Học bổng tuyển sinh 2026</div>
-            <h1>Học bổng <span class="accent">100%</span><br>dành cho bạn</h1>
-            <p>STU trao hàng trăm suất học bổng cho thí sinh xuất sắc, hộ cận nghèo, và thí sinh đạt điểm cao.</p>
-            <div class="hero-ctas">
-                <a href="{{ url('/hoc-bong') }}" class="hero-cta-primary"><i class="fas fa-award"></i> Xem học bổng</a>
-                <a href="{{ url('/tuyen-sinh') }}" class="hero-cta-secondary"><i class="fas fa-info-circle"></i> Thông tin xét tuyển</a>
-            </div>
+    @endif
+
+    {{-- Dots điều hướng --}}
+    @if($bannerList->count() > 1)
+        <div class="hero-dots">
+            @foreach($bannerList as $i => $banner)
+                <div class="hero-dot {{ $i === 0 ? 'active' : '' }}" onclick="goSlide({{ $i }})"></div>
+            @endforeach
         </div>
-    </div>
-    {{-- Slide 3 --}}
-    <div class="hero-slide">
-        <div class="bg" style="background-image:url('https://stu.exproweb.com/upload/images/banner/banner-5.jpg')"></div>
-        <div class="hero-content">
-            <div class="hero-badge"><span class="dot"></span>96% sinh viên có việc làm</div>
-            <h1>30 năm đào tạo<br><span class="accent">nhân lực chất lượng</span></h1>
-            <p>Hơn 11.000 sinh viên đang theo học, 60+ phòng thí nghiệm hiện đại, kết nối hàng trăm doanh nghiệp đối tác.</p>
-            <div class="hero-ctas">
-                <a href="#gioi-thieu" class="hero-cta-primary"><i class="fas fa-university"></i> Tìm hiểu về STU</a>
-                <a href="{{ url('/tuyen-sinh/phuong-thuc') }}" class="hero-cta-secondary"><i class="fas fa-list-check"></i> Phương thức xét tuyển</a>
-            </div>
-        </div>
-    </div>
-    {{-- Dots --}}
-    <div class="hero-dots">
-        <div class="hero-dot active" onclick="goSlide(0)"></div>
-        <div class="hero-dot" onclick="goSlide(1)"></div>
-        <div class="hero-dot" onclick="goSlide(2)"></div>
-    </div>
+    @endif
 </section>
 
 {{-- ===== STATS BAR ===== --}}
+{{--
+    Lấy tổng chỉ tiêu từ ChiTieu (đợt đang_mo hoặc da_cong_bo)
+    và tổng ngành từ NganhHoc (trang_thai=1)
+    Các chỉ số còn lại là cố định của trường
+--}}
 <div class="stats-bar">
     <div class="inner">
-        <div class="stat-item"><div class="stat-num">3.000</div><div class="stat-label">Chỉ tiêu tuyển sinh 2026</div></div>
-        <div class="stat-item"><div class="stat-num">18</div><div class="stat-label">Ngành đào tạo</div></div>
-        <div class="stat-item"><div class="stat-num">96%</div><div class="stat-label">Sinh viên có việc làm</div></div>
-        <div class="stat-item"><div class="stat-num">30+</div><div class="stat-label">Năm kinh nghiệm</div></div>
+        <div class="stat-item">
+            <div class="stat-num">{{ number_format($nganhList->sum('chi_tieu') ?: 3000) }}</div>
+            <div class="stat-label">Chỉ tiêu tuyển sinh 2026</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">{{ $nganhList->count() ?: 18 }}</div>
+            <div class="stat-label">Ngành đào tạo</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">96%</div>
+            <div class="stat-label">Sinh viên có việc làm</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">30+</div>
+            <div class="stat-label">Năm kinh nghiệm</div>
+        </div>
     </div>
 </div>
 
 {{-- ===== PHUONG THUC XET TUYEN ===== --}}
+{{-- Nguồn: bảng PhuongThucXT (is_active=1) --}}
 <section class="section">
     <div class="container">
         <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
             <div>
                 <div class="section-label">Tuyển sinh 2026</div>
                 <h2 class="section-title">Phương thức xét tuyển</h2>
-                <p class="section-desc">STU áp dụng 5 phương thức xét tuyển đa dạng, tạo cơ hội bình đẳng cho mọi thí sinh.</p>
+                <p class="section-desc">STU áp dụng {{ $phuongThucList->count() }} phương thức xét tuyển đa dạng, tạo cơ hội bình đẳng cho mọi thí sinh.</p>
             </div>
             <a href="{{ url('/tuyen-sinh/phuong-thuc') }}" class="see-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
         </div>
+
+        @php
+            // Map icon theo loai_diem
+            $ptIcons = [
+                'hoc_ba'             => 'fas fa-book-open',
+                'thi_thpt'           => 'fas fa-file-alt',
+                'danh_gia_nang_luc'  => 'fas fa-brain',
+            ];
+        @endphp
+
         <div class="method-grid">
-            @forelse($phuongThucList ?? [] as $pt)
+            @foreach($phuongThucList as $pt)
                 <div class="method-card">
-                    <div class="method-icon"><i class="{{ $pt->icon ?? 'fas fa-graduation-cap' }}"></i></div>
+                    <div class="method-icon">
+                        <i class="{{ $ptIcons[$pt->loai_diem] ?? 'fas fa-graduation-cap' }}"></i>
+                    </div>
                     <span class="method-code">{{ $pt->ma_phuong_thuc }}</span>
-                    <div class="method-name">{{ $pt->ten }}</div>
+                    <div class="method-name">{{ $pt->ten_phuong_thuc }}</div>
                     <div class="method-desc">{{ $pt->mo_ta }}</div>
                 </div>
-            @empty
-                {{-- Fallback tĩnh --}}
-                @foreach([
-                    ['code'=>'PT01','icon'=>'fas fa-book-open','name'=>'Xét học bạ THPT','desc'=>'Dựa trên kết quả học bạ các học kỳ THPT theo tổ hợp môn xét tuyển.'],
-                    ['code'=>'PT02','icon'=>'fas fa-file-alt','name'=>'Điểm thi tốt nghiệp THPT','desc'=>'Xét theo điểm thi tốt nghiệp THPT quốc gia và tổ hợp môn của ngành.'],
-                    ['code'=>'PT03','icon'=>'fas fa-brain','name'=>'Đánh giá năng lực ĐHQG','desc'=>'Dựa trên kết quả kỳ thi Đánh giá năng lực do ĐHQG TP.HCM tổ chức.'],
-                    ['code'=>'PT04','icon'=>'fas fa-medal','name'=>'Học sinh giỏi','desc'=>'Dành cho thí sinh có giải thi học sinh giỏi cấp tỉnh/thành phố trở lên.'],
-                    ['code'=>'PT05','icon'=>'fas fa-exchange-alt','name'=>'Xét tuyển thẳng','desc'=>'Áp dụng cho thí sinh có thành tích đặc biệt theo quy định Bộ GD&ĐT.'],
-                ] as $pt)
-                    <div class="method-card">
-                        <div class="method-icon"><i class="{{ $pt['icon'] }}"></i></div>
-                        <span class="method-code">{{ $pt['code'] }}</span>
-                        <div class="method-name">{{ $pt['name'] }}</div>
-                        <div class="method-desc">{{ $pt['desc'] }}</div>
-                    </div>
-                @endforeach
-            @endforelse
+            @endforeach
         </div>
     </div>
 </section>
 
 {{-- ===== NGANH HOC ===== --}}
+{{-- Nguồn: bảng NganhHoc (trang_thai=1) join Khoa, ChiTieu lấy diem_chuan --}}
 <section class="section section-alt">
     <div class="container">
         <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
             <div>
                 <div class="section-label">Đào tạo</div>
                 <h2 class="section-title">Ngành học nổi bật</h2>
-                <p class="section-desc">18 ngành đào tạo chính quy, gắn kết doanh nghiệp, đảm bảo đầu ra việc làm.</p>
+                <p class="section-desc">{{ $nganhList->count() }} ngành đào tạo chính quy, gắn kết doanh nghiệp, đảm bảo đầu ra việc làm.</p>
             </div>
             <a href="{{ url('/nganh-hoc') }}" class="see-more">Tất cả ngành <i class="fas fa-arrow-right"></i></a>
         </div>
 
+        {{-- Tab lọc theo khoa --}}
         <div class="nganh-tabs" id="nganh-tabs">
             <div class="nganh-tab on" data-khoa="all">Tất cả</div>
-            @forelse($khoaList ?? [] as $khoa)
+            @foreach($khoaList as $khoa)
                 <div class="nganh-tab" data-khoa="{{ $khoa->id }}">{{ $khoa->ten_khoa }}</div>
-            @empty
-                @foreach(['cntt'=>'Công nghệ thông tin','kt'=>'Kinh tế – Quản trị','ck'=>'Cơ khí – Điện tử','xd'=>'Xây dựng','tp'=>'Thực phẩm'] as $key => $label)
-                    <div class="nganh-tab" data-khoa="{{ $key }}">{{ $label }}</div>
-                @endforeach
-            @endforelse
+            @endforeach
         </div>
 
+        @php
+            // Icon theo ma_khoa
+            $khoaIcons = [
+                'CNTT' => '💻', 'KTDD' => '⚡', 'CK' => '🔧',
+                'KT'   => '📊', 'XD'   => '🏗️',
+            ];
+        @endphp
+
         <div class="nganh-grid" id="nganh-grid">
-            @forelse($nganhList ?? [] as $nganh)
-                <a href="{{ url('/nganh-hoc/' . $nganh->id) }}" class="nganh-card">
-                    <div class="nganh-icon">{{ $nganh->icon ?? '🎓' }}</div>
+            @foreach($nganhList as $nganh)
+                <a href="{{ url('/nganh-hoc/' . $nganh->id) }}"
+                   class="nganh-card"
+                   data-khoa="{{ $nganh->khoa_id }}">
+                    <div class="nganh-icon">
+                        {{ $khoaIcons[$nganh->khoa->ma_khoa ?? ''] ?? '🎓' }}
+                    </div>
                     <div class="nganh-info">
                         <div class="nganh-name">{{ $nganh->ten_nganh }}</div>
                         <div class="nganh-meta">
-                            <span><i class="fas fa-users"></i> {{ number_format($nganh->chi_tieu) }} chỉ tiêu</span>
-                            <span><i class="fas fa-clock"></i> 4 năm</span>
+                            @if($nganh->chi_tieu)
+                                <span><i class="fas fa-users"></i> {{ number_format($nganh->chi_tieu) }} chỉ tiêu</span>
+                            @endif
+                            <span><i class="fas fa-clock"></i> {{ $nganh->thoi_gian_dao_tao }} năm</span>
                         </div>
                         @if($nganh->diem_chuan)
                             <span class="nganh-score">Điểm chuẩn 2025: {{ $nganh->diem_chuan }}</span>
                         @endif
                     </div>
                 </a>
-            @empty
-                @foreach([
-                    ['icon'=>'💻','name'=>'Công nghệ thông tin','ct'=>400,'dc'=>'22.5'],
-                    ['icon'=>'🔧','name'=>'Kỹ thuật Máy tính','ct'=>200,'dc'=>'21.0'],
-                    ['icon'=>'📊','name'=>'Quản trị kinh doanh','ct'=>350,'dc'=>'20.0'],
-                    ['icon'=>'📈','name'=>'Marketing','ct'=>300,'dc'=>'20.5'],
-                    ['icon'=>'⚡','name'=>'Điện – Điện tử','ct'=>250,'dc'=>'19.5'],
-                    ['icon'=>'🏗️','name'=>'Kỹ thuật Xây dựng','ct'=>200,'dc'=>'19.0'],
-                    ['icon'=>'🍔','name'=>'Công nghệ Thực phẩm','ct'=>180,'dc'=>'18.5'],
-                    ['icon'=>'🎨','name'=>'Thiết kế công nghiệp','ct'=>150,'dc'=>'20.0'],
-                ] as $n)
-                    <a href="#" class="nganh-card">
-                        <div class="nganh-icon">{{ $n['icon'] }}</div>
-                        <div class="nganh-info">
-                            <div class="nganh-name">{{ $n['name'] }}</div>
-                            <div class="nganh-meta">
-                                <span><i class="fas fa-users"></i> {{ $n['ct'] }}</span>
-                                <span><i class="fas fa-clock"></i> 4 năm</span>
-                            </div>
-                            <span class="nganh-score">Điểm chuẩn 2025: {{ $n['dc'] }}</span>
-                        </div>
-                    </a>
-                @endforeach
-            @endforelse
+            @endforeach
         </div>
     </div>
 </section>
 
 {{-- ===== TIN TUC + SU KIEN ===== --}}
+{{--
+    Tin tức: bảng BaiViet (trang_thai='da_xuat_ban', mới nhất)
+    Sự kiện: bảng SuKien (is_hien_thi=1, ngay_to_chuc >= now, sắp diễn ra)
+--}}
 <section class="section">
     <div class="container">
         <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:48px;align-items:start">
 
-            {{-- TIN TUC --}}
+            {{-- TIN TỨC --}}
             <div>
                 <div class="section-head" style="display:flex;justify-content:space-between;align-items:center">
                     <div>
@@ -390,56 +404,53 @@
                     <a href="{{ url('/tin-tuc') }}" class="see-more">Xem thêm <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div style="display:flex;flex-direction:column;gap:16px">
-                    @forelse($tinTucList ?? [] as $i => $tin)
+                    @foreach($tinTucList as $i => $tin)
                         @if($i === 0)
                             <a href="{{ url('/tin-tuc/' . $tin->slug) }}" class="news-featured">
-                                <div class="img-wrap"><img src="{{ $tin->anh ?? '/images/default-news.jpg' }}" alt="{{ $tin->tieu_de }}" loading="lazy"></div>
+                                <div class="img-wrap">
+                                    <img src="{{ asset($tin->anh) }}"
+                                         alt="{{ $tin->tieu_de }}"
+                                         loading="lazy"
+                                         onerror="this.src='https://stu.exproweb.com/upload/images/STU001/News/Moc%20thoi%20gian%20can%20nho%202026.jpg'">
+                                </div>
                                 <div class="body">
                                     <span class="news-tag">{{ $tin->danh_muc }}</span>
                                     <div class="news-title">{{ $tin->tieu_de }}</div>
-                                    <div class="news-date"><i class="fas fa-calendar-alt"></i>{{ \Carbon\Carbon::parse($tin->ngay_dang)->format('d/m/Y') }}</div>
+                                    <div class="news-date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {{ \Carbon\Carbon::parse($tin->ngay_dang)->format('d/m/Y') }}
+                                    </div>
                                 </div>
                             </a>
                         @else
                             <a href="{{ url('/tin-tuc/' . $tin->slug) }}" class="news-item">
-                                <div class="thumb"><img src="{{ $tin->anh ?? '/images/default-news.jpg' }}" alt="" loading="lazy"></div>
+                                <div class="thumb">
+                                    <img src="{{ asset($tin->anh) }}"
+                                         alt="{{ $tin->tieu_de }}"
+                                         loading="lazy"
+                                         onerror="this.src='https://stu.exproweb.com/upload/images/news/news-2.jpg'">
+                                </div>
                                 <div class="info">
                                     <span class="news-tag">{{ $tin->danh_muc }}</span>
                                     <div class="news-title">{{ $tin->tieu_de }}</div>
-                                    <div class="news-date"><i class="fas fa-calendar-alt"></i>{{ \Carbon\Carbon::parse($tin->ngay_dang)->format('d/m/Y') }}</div>
+                                    <div class="news-date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {{ \Carbon\Carbon::parse($tin->ngay_dang)->format('d/m/Y') }}
+                                    </div>
                                 </div>
                             </a>
                         @endif
-                    @empty
-                        <a href="#" class="news-featured">
-                            <div class="img-wrap"><img src="https://stu.exproweb.com/upload/images/STU001/News/Moc%20thoi%20gian%20can%20nho%202026.jpg" alt=""></div>
-                            <div class="body">
-                                <span class="news-tag">Tuyển sinh</span>
-                                <div class="news-title">TUYỂN SINH 2026: Các mốc thời gian quan trọng cần nhớ</div>
-                                <div class="news-date"><i class="fas fa-calendar-alt"></i>22/04/2026</div>
-                            </div>
-                        </a>
-                        <a href="#" class="news-item">
-                            <div class="thumb"><img src="https://stu.exproweb.com/upload/images/news/news-2.jpg" alt=""></div>
-                            <div class="info">
-                                <span class="news-tag">Điểm chuẩn</span>
-                                <div class="news-title">Điểm chuẩn STU 2025 – Cập nhật mới nhất & so sánh xu hướng</div>
-                                <div class="news-date"><i class="fas fa-calendar-alt"></i>16/01/2026</div>
-                            </div>
-                        </a>
-                        <a href="#" class="news-item">
-                            <div class="thumb"><img src="https://stu.exproweb.com/upload/images/STU001/News/Cau%20hoi%20TS%20t4%202026.jpg" alt=""></div>
-                            <div class="info">
-                                <span class="news-tag">Tư vấn</span>
-                                <div class="news-title">20 câu hỏi tuyển sinh STU được hỏi nhiều nhất tháng 4</div>
-                                <div class="news-date"><i class="fas fa-calendar-alt"></i>22/04/2026</div>
-                            </div>
-                        </a>
-                    @endforelse
+                    @endforeach
+
+                    @if($tinTucList->isEmpty())
+                        <p style="color:var(--gray-500);font-size:14px;padding:20px 0;">
+                            Chưa có bài viết nào. Vui lòng thêm bài viết trong trang quản trị.
+                        </p>
+                    @endif
                 </div>
             </div>
 
-            {{-- SU KIEN --}}
+            {{-- SỰ KIỆN --}}
             <div>
                 <div class="section-head" style="display:flex;justify-content:space-between;align-items:center">
                     <div>
@@ -449,46 +460,32 @@
                     <a href="{{ url('/su-kien') }}" class="see-more">Tất cả <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="sukien-list">
-                    @forelse($suKienList ?? [] as $sk)
+                    @foreach($suKienList as $sk)
                         <a href="{{ url('/su-kien/' . $sk->id) }}" class="sukien-item">
                             <div class="sukien-date">
                                 <div class="day">{{ \Carbon\Carbon::parse($sk->ngay_to_chuc)->format('d') }}</div>
-                                <div class="month">{{ \Carbon\Carbon::parse($sk->ngay_to_chuc)->format('M') }}</div>
+                                <div class="month">Th{{ \Carbon\Carbon::parse($sk->ngay_to_chuc)->format('n') }}</div>
                             </div>
                             <div class="sukien-divider"></div>
                             <div class="sukien-info">
-                                <div class="sukien-title">{{ $sk->ten_su_kien }}</div>
+                                <div class="sukien-title">{{ $sk->tieu_de }}</div>
                                 <div class="sukien-meta">
-                                    <span><i class="fas fa-map-marker-alt"></i> {{ $sk->dia_diem }}</span>
+                                    <span>
+                                        <i class="fas fa-{{ $sk->hinh_thuc === 'online' ? 'video' : 'map-marker-alt' }}"></i>
+                                        {{ $sk->hinh_thuc === 'online' ? 'Trực tuyến' : $sk->dia_diem }}
+                                    </span>
                                     <span class="sukien-tag {{ $sk->loai }}">{{ $sk->loai_label }}</span>
                                 </div>
                             </div>
                             <i class="fas fa-chevron-right sukien-arrow"></i>
                         </a>
-                    @empty
-                        @foreach([
-                            ['day'=>'25','month'=>'Th5','title'=>'Ngày hội tư vấn tuyển sinh STU 2026','place'=>'Hội trường A','tag'=>'tuvan','tag_label'=>'Tư vấn'],
-                            ['day'=>'01','month'=>'Th6','title'=>'Workshop: Khám phá ngành Công nghệ thông tin','place'=>'Phòng B301','tag'=>'nganhhoc','tag_label'=>'Ngành học'],
-                            ['day'=>'10','month'=>'Th6','title'=>'Hạn nộp hồ sơ xét học bổng đợt 1','place'=>'Online','tag'=>'hocbong','tag_label'=>'Học bổng'],
-                            ['day'=>'15','month'=>'Th6','title'=>'Hội thảo hướng nghiệp cùng doanh nghiệp đối tác','place'=>'Sân khấu lớn','tag'=>'tuvan','tag_label'=>'Tư vấn'],
-                        ] as $sk)
-                            <a href="#" class="sukien-item">
-                                <div class="sukien-date">
-                                    <div class="day">{{ $sk['day'] }}</div>
-                                    <div class="month">{{ $sk['month'] }}</div>
-                                </div>
-                                <div class="sukien-divider"></div>
-                                <div class="sukien-info">
-                                    <div class="sukien-title">{{ $sk['title'] }}</div>
-                                    <div class="sukien-meta">
-                                        <span><i class="fas fa-map-marker-alt"></i> {{ $sk['place'] }}</span>
-                                        <span class="sukien-tag {{ $sk['tag'] }}">{{ $sk['tag_label'] }}</span>
-                                    </div>
-                                </div>
-                                <i class="fas fa-chevron-right sukien-arrow"></i>
-                            </a>
-                        @endforeach
-                    @endforelse
+                    @endforeach
+
+                    @if($suKienList->isEmpty())
+                        <p style="color:var(--gray-500);font-size:14px;padding:20px 0;">
+                            Chưa có sự kiện nào sắp diễn ra.
+                        </p>
+                    @endif
                 </div>
             </div>
 
@@ -496,7 +493,8 @@
     </div>
 </section>
 
-{{-- ===== HOC BONG ===== --}}
+{{-- ===== HỌC BỔNG ===== --}}
+{{-- Nguồn: bảng HocBong (trang_thai='dang_mo', còn trong hạn đăng ký) --}}
 <section class="section section-alt">
     <div class="container">
         <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
@@ -507,37 +505,31 @@
             </div>
             <a href="{{ url('/hoc-bong') }}" class="see-more">Xem tất cả <i class="fas fa-arrow-right"></i></a>
         </div>
+
         <div class="hocbong-grid">
-            @forelse($hocBongList ?? [] as $hb)
-                <a href="{{ url('/hoc-bong/' . $hb->id) }}" class="hocbong-card {{ $loop->first ? 'red' : ($loop->index == 1 ? 'gold' : 'navy') }}">
-                    <div class="bg-deco"></div><div class="bg-deco2"></div>
-                    <div class="hocbong-percent">{{ $hb->phan_tram }}%</div>
-                    <div class="hocbong-icon"><i class="{{ $hb->icon ?? 'fas fa-award' }}"></i></div>
-                    <div class="hocbong-name">{{ $hb->ten }}</div>
+            @foreach($hocBongList as $hb)
+                <a href="{{ url('/hoc-bong/' . $hb->id) }}" class="hocbong-card {{ $hb->card_class }}">
+                    <div class="bg-deco"></div>
+                    <div class="bg-deco2"></div>
+                    <div class="hocbong-percent">{{ (int)$hb->phan_tram_mien_giam }}%</div>
+                    <div class="hocbong-icon"><i class="{{ $hb->icon }}"></i></div>
+                    <div class="hocbong-name">{{ $hb->ten_hoc_bong }}</div>
                     <div class="hocbong-desc">{{ $hb->mo_ta }}</div>
                     <span class="hocbong-value"><i class="fas fa-tag"></i> {{ $hb->gia_tri_label }}</span>
                 </a>
-            @empty
-                @foreach([
-                    ['class'=>'red','pct'=>'100','icon'=>'fas fa-trophy','name'=>'Học bổng Xuất sắc','desc'=>'Dành cho thí sinh có điểm xét tuyển từ 27 trở lên hoặc giải học sinh giỏi quốc gia.','label'=>'Miễn 100% học phí'],
-                    ['class'=>'gold','pct'=>'50','icon'=>'fas fa-star','name'=>'Học bổng Khuyến khích','desc'=>'Dành cho thí sinh có điểm xét tuyển từ 24–26,75 và học lực giỏi liên tục.','label'=>'Giảm 50% học phí'],
-                    ['class'=>'navy','pct'=>'25','icon'=>'fas fa-hand-holding-heart','name'=>'Học bổng Hỗ trợ','desc'=>'Dành cho sinh viên có hoàn cảnh khó khăn, thuộc hộ cận nghèo hoặc vùng đặc biệt khó khăn.','label'=>'Giảm 25% học phí'],
-                ] as $hb)
-                    <a href="#" class="hocbong-card {{ $hb['class'] }}">
-                        <div class="bg-deco"></div><div class="bg-deco2"></div>
-                        <div class="hocbong-percent">{{ $hb['pct'] }}%</div>
-                        <div class="hocbong-icon"><i class="{{ $hb['icon'] }}"></i></div>
-                        <div class="hocbong-name">{{ $hb['name'] }}</div>
-                        <div class="hocbong-desc">{{ $hb['desc'] }}</div>
-                        <span class="hocbong-value"><i class="fas fa-tag"></i> {{ $hb['label'] }}</span>
-                    </a>
-                @endforeach
-            @endforelse
+            @endforeach
+
+            @if($hocBongList->isEmpty())
+                <div class="hocbong-card navy" style="grid-column:1/-1;align-items:center;text-align:center;">
+                    <p>Chưa có học bổng nào đang mở. Vui lòng theo dõi thêm.</p>
+                </div>
+            @endif
         </div>
     </div>
 </section>
 
-{{-- ===== STU QUA ONG KINH ===== --}}
+{{-- ===== STU QUA ỐNG KÍNH ===== --}}
+{{-- Phần này dùng ảnh/video tĩnh của trường, không cần DB --}}
 <section class="section" id="ong-kinh">
     <div class="container">
         <div class="section-head" style="text-align:left">
@@ -565,7 +557,8 @@
     </div>
 </section>
 
-{{-- ===== NGHIEN CUU KHOA HOC ===== --}}
+{{-- ===== NGHIÊN CỨU KHOA HỌC ===== --}}
+{{-- Nguồn: BaiViet danh mục slug='nghien-cuu-khoa-hoc' --}}
 <section class="section section-alt" id="nckh">
     <div class="container">
         <div class="section-head" style="text-align:left">
@@ -573,46 +566,51 @@
         </div>
         <div class="nckh-wrap">
             <div class="nckh-slider-track" id="nckh-track">
-                @forelse($nckhList ?? [] as $i => $nckh)
+                @foreach($nckhList as $i => $nckh)
                     <div class="nckh-card {{ $i === 0 ? 'nckh-active' : '' }}">
-                        <div class="nckh-img"><img src="{{ $nckh->anh }}" alt="{{ $nckh->tieu_de }}"></div>
+                        <div class="nckh-img">
+                            <img src="{{ asset($nckh->anh) }}"
+                                 alt="{{ $nckh->tieu_de }}"
+                                 onerror="this.src='https://stu.exproweb.com/upload/images/news/image014.jpg'">
+                        </div>
                         <div class="nckh-caption">
                             <span class="nckh-date">{{ \Carbon\Carbon::parse($nckh->ngay)->format('d/m/Y') }}</span>
-                            <a href="{{ url('/nghien-cuu/' . $nckh->id) }}" class="nckh-title">{{ $nckh->tieu_de }}</a>
+                            <a href="{{ url('/tin-tuc/' . $nckh->slug) }}" class="nckh-title">{{ $nckh->tieu_de }}</a>
                             <p class="nckh-desc">{{ $nckh->mo_ta }}</p>
                         </div>
                     </div>
-                @empty
-                    @foreach([
-                        ['img'=>'https://stu.exproweb.com/upload/images/news/image014.jpg','date'=>'18/12/2025','title'=>'Phòng Thí nghiệm Công nghệ Sinh học Thực phẩm','desc'=>'Phòng Thí nghiệm Công nghệ Sinh học Thực phẩm — nơi sinh viên nghiên cứu và thực hành chuyên sâu.'],
-                        ['img'=>'https://stu.exproweb.com/upload/images/news/YSC6.jpg','date'=>'18/12/2025','title'=>'Hội nghị Khoa học Sinh viên STU 2025','desc'=>'Sân chơi học thuật cho sinh viên STU trình bày các công trình nghiên cứu khoa học.'],
-                        ['img'=>'https://stu.exproweb.com/upload/images/news/ICITE1.jpg','date'=>'18/12/2025','title'=>'Hội nghị Quốc tế ICITE 2025','desc'=>'STU đồng tổ chức hội nghị quốc tế về công nghệ và kỹ thuật hiện đại.'],
-                    ] as $i => $nckh)
-                        <div class="nckh-card {{ $i === 0 ? 'nckh-active' : '' }}">
-                            <div class="nckh-img"><img src="{{ $nckh['img'] }}" alt="{{ $nckh['title'] }}"></div>
-                            <div class="nckh-caption">
-                                <span class="nckh-date">{{ $nckh['date'] }}</span>
-                                <a href="#" class="nckh-title">{{ $nckh['title'] }}</a>
-                                <p class="nckh-desc">{{ $nckh['desc'] }}</p>
-                            </div>
+                @endforeach
+
+                @if($nckhList->isEmpty())
+                    <div class="nckh-card nckh-active">
+                        <div class="nckh-img">
+                            <img src="https://stu.exproweb.com/upload/images/news/image014.jpg" alt="NCKH">
                         </div>
+                        <div class="nckh-caption">
+                            <span class="nckh-date">Cập nhật sớm</span>
+                            <span class="nckh-title">Nghiên cứu khoa học tại STU</span>
+                            <p class="nckh-desc">Vui lòng thêm bài viết danh mục "Nghiên cứu khoa học" trong trang quản trị để hiển thị tại đây.</p>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            @if($nckhList->count() > 1)
+                <div class="nckh-controls">
+                    <button class="nckh-btn" onclick="nckhPrev()"><i class="fas fa-chevron-left"></i></button>
+                    <button class="nckh-btn" onclick="nckhNext()"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="nckh-dots-row" id="nckh-dots">
+                    @foreach($nckhList as $i => $nckh)
+                        <div class="nckh-dot-item {{ $i === 0 ? 'on' : '' }}" onclick="nckhGo({{ $i }})"></div>
                     @endforeach
-                @endforelse
-            </div>
-            <div class="nckh-controls">
-                <button class="nckh-btn" onclick="nckhPrev()"><i class="fas fa-chevron-left"></i></button>
-                <button class="nckh-btn" onclick="nckhNext()"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="nckh-dots-row" id="nckh-dots">
-                @for($i = 0; $i < max(count($nckhList ?? []), 3); $i++)
-                    <div class="nckh-dot-item {{ $i === 0 ? 'on' : '' }}" onclick="nckhGo({{ $i }})"></div>
-                @endfor
-            </div>
+                </div>
+            @endif
         </div>
     </div>
 </section>
 
-{{-- ===== VI SAO CHON STU ===== --}}
+{{-- ===== VÌ SAO CHỌN STU? ===== --}}
 <section class="section" id="vi-sao-stu">
     <div class="container">
         <div class="section-head" style="text-align:left">
@@ -624,7 +622,7 @@
                 <div class="visao-img-badge">❤️ I Love STU</div>
             </div>
             <div class="visao-cards">
-                <a href="#" class="visao-card">
+                <a href="{{ url('/gioi-thieu') }}" class="visao-card">
                     <div class="visao-card-left">
                         <div class="visao-icon"><i class="fas fa-layer-group"></i></div>
                         <div>
@@ -634,7 +632,7 @@
                     </div>
                     <i class="fas fa-arrow-up-right-from-square visao-arrow"></i>
                 </a>
-                <a href="#" class="visao-card">
+                <a href="{{ url('/co-so-vat-chat') }}" class="visao-card">
                     <div class="visao-card-left">
                         <div class="visao-icon"><i class="fas fa-flask"></i></div>
                         <div>
@@ -644,7 +642,7 @@
                     </div>
                     <i class="fas fa-arrow-up-right-from-square visao-arrow"></i>
                 </a>
-                <a href="#" class="visao-card">
+                <a href="{{ url('/doi-tac') }}" class="visao-card">
                     <div class="visao-card-left">
                         <div class="visao-icon"><i class="fas fa-briefcase"></i></div>
                         <div>
@@ -659,7 +657,8 @@
     </div>
 </section>
 
-{{-- ===== FORM TU VAN ===== --}}
+{{-- ===== FORM TƯ VẤN ===== --}}
+{{-- POST đến TrangChuController@tuVan → lưu vào bảng YeuCauTuVan --}}
 <section class="section" id="tu-van">
     <div class="container">
         <div class="tuvan-wrap">
@@ -671,42 +670,53 @@
                     <div class="tuvan-contact">
                         <a href="tel:84838505520"><i class="fas fa-phone-alt"></i> (84.8) 3850 5520</a>
                         <a href="mailto:tuyensinh@stu.edu.vn"><i class="fas fa-envelope"></i> tuyensinh@stu.edu.vn</a>
-                        <a href="#"><i class="fab fa-facebook"></i> facebook.com/STUAdmission</a>
+                        <a href="https://facebook.com/STUAdmission" target="_blank"><i class="fab fa-facebook"></i> facebook.com/STUAdmission</a>
                         <a href="#"><i class="fas fa-map-marker-alt"></i> 180 Cao Lỗ, Q.8, TP.HCM</a>
                     </div>
                 </div>
                 <div class="tuvan-form">
                     <h3><i class="fas fa-paper-plane" style="color:var(--red);margin-right:8px"></i>Đăng ký nhận tư vấn</h3>
+
+                    @if(session('success'))
+                        <div class="alert-success">
+                            <i class="fas fa-check-circle"></i> {{ session('success') }}
+                        </div>
+                    @endif
+
                     <form action="{{ url('/tu-van') }}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Họ và tên <span class="req">*</span></label>
-                                <input type="text" name="ho_ten" class="form-control" placeholder="Nguyễn Văn A" required>
+                                <input type="text" name="ho_ten" class="form-control"
+                                       placeholder="Nguyễn Văn A"
+                                       value="{{ old('ho_ten') }}" required>
                             </div>
                             <div class="form-group">
                                 <label>Số điện thoại <span class="req">*</span></label>
-                                <input type="tel" name="so_dien_thoai" class="form-control" placeholder="0912 345 678" required>
+                                <input type="tel" name="so_dien_thoai" class="form-control"
+                                       placeholder="0912 345 678"
+                                       value="{{ old('so_dien_thoai') }}" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="email@example.com">
+                            <input type="email" name="email" class="form-control"
+                                   placeholder="email@example.com"
+                                   value="{{ old('email') }}">
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Ngành quan tâm</label>
+                                {{-- Danh sách ngành từ DB --}}
                                 <select name="nganh_id" class="form-control">
                                     <option value="">-- Chọn ngành --</option>
-                                    @forelse($nganhList ?? [] as $nganh)
-                                        <option value="{{ $nganh->id }}">{{ $nganh->ten_nganh }}</option>
-                                    @empty
-                                        <option>Công nghệ thông tin</option>
-                                        <option>Quản trị kinh doanh</option>
-                                        <option>Kỹ thuật Điện – Điện tử</option>
-                                        <option>Công nghệ Thực phẩm</option>
-                                        <option>Thiết kế công nghiệp</option>
-                                    @endforelse
+                                    @foreach($nganhList as $nganh)
+                                        <option value="{{ $nganh->id }}"
+                                            {{ old('nganh_id') == $nganh->id ? 'selected' : '' }}>
+                                            {{ $nganh->ten_nganh }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
@@ -714,7 +724,7 @@
                                 <select name="tinh_thanh" class="form-control">
                                     <option value="">-- Chọn tỉnh thành --</option>
                                     @foreach(['TP. Hồ Chí Minh','Hà Nội','Bình Dương','Đồng Nai','Long An','Tỉnh / Thành khác'] as $tp)
-                                        <option>{{ $tp }}</option>
+                                        <option {{ old('tinh_thanh') === $tp ? 'selected' : '' }}>{{ $tp }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -729,7 +739,7 @@
     </div>
 </section>
 
-{{-- ===== DOI TAC ===== --}}
+{{-- ===== ĐỐI TÁC ===== --}}
 <section class="section section-alt" style="padding:40px 0">
     <div class="container">
         <div class="section-label" style="justify-content:center;display:flex;margin-bottom:20px">Đối tác doanh nghiệp</div>
@@ -738,7 +748,6 @@
                 @foreach(['Qualcomm','Vietcombank','RIKEI Vietnam','Daishin','WACOM','Horizon','OTIS','SATORI','Troy','WESET'] as $p)
                     <div class="partner-item">{{ $p }}</div>
                 @endforeach
-                {{-- Clone for infinite scroll --}}
                 @foreach(['Qualcomm','Vietcombank','RIKEI Vietnam','Daishin','WACOM','Horizon','OTIS','SATORI','Troy','WESET'] as $p)
                     <div class="partner-item">{{ $p }}</div>
                 @endforeach
@@ -751,60 +760,77 @@
 
 @push('scripts')
 <script>
-    // ===== HERO SLIDER =====
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots   = document.querySelectorAll('.hero-dot');
+// ===== HERO SLIDER =====
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const dots   = document.querySelectorAll('.hero-dot');
 
-    function goSlide(index) {
-        slides[currentSlide].classList.remove('active');
-        dots[currentSlide].classList.remove('active');
-        currentSlide = index;
-        slides[currentSlide].classList.add('active');
-        dots[currentSlide].classList.add('active');
-    }
+function goSlide(index) {
+    if (!slides[index]) return;
+    slides[currentSlide].classList.remove('active');
+    if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+    currentSlide = index;
+    slides[currentSlide].classList.add('active');
+    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+}
+
+if (slides.length > 1) {
     setInterval(() => goSlide((currentSlide + 1) % slides.length), 5000);
+}
 
-    // ===== NGANH TAB FILTER =====
-    document.querySelectorAll('.nganh-tab').forEach(tab => {
-        tab.addEventListener('click', function () {
-            document.querySelectorAll('.nganh-tab').forEach(t => t.classList.remove('on'));
-            this.classList.add('on');
-            // Filter server-side hoặc dùng Livewire / Alpine.js
-        });
-    });
+// ===== NGANH TAB FILTER =====
+// Lọc ngành theo khoa_id gắn trên data-khoa của từng .nganh-card
+document.querySelectorAll('.nganh-tab').forEach(tab => {
+    tab.addEventListener('click', function () {
+        document.querySelectorAll('.nganh-tab').forEach(t => t.classList.remove('on'));
+        this.classList.add('on');
 
-    // ===== ANIMATE ON SCROLL =====
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+        const khoa = this.dataset.khoa;
+        document.querySelectorAll('.nganh-card').forEach(card => {
+            if (khoa === 'all' || card.dataset.khoa === khoa) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
             }
         });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.method-card, .nganh-card, .hocbong-card, .sukien-item').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity .4s ease, transform .4s ease';
-        observer.observe(el);
     });
+});
 
-    // ===== NCKH SLIDER =====
-    let nckhCurrent = 0;
-    const nckhCards = document.querySelectorAll('.nckh-card');
-    const nckhDots  = document.querySelectorAll('.nckh-dot-item');
+// ===== ANIMATE ON SCROLL =====
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1 });
 
-    function nckhGo(index) {
-        nckhCards[nckhCurrent].classList.remove('nckh-active');
-        nckhDots[nckhCurrent].classList.remove('on');
-        nckhCurrent = index;
-        nckhCards[nckhCurrent].classList.add('nckh-active');
-        nckhDots[nckhCurrent].classList.add('on');
-    }
-    function nckhNext() { nckhGo((nckhCurrent + 1) % nckhCards.length); }
-    function nckhPrev() { nckhGo((nckhCurrent - 1 + nckhCards.length) % nckhCards.length); }
+document.querySelectorAll('.method-card, .nganh-card, .hocbong-card, .sukien-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .4s ease, transform .4s ease';
+    observer.observe(el);
+});
+
+// ===== NCKH SLIDER =====
+let nckhCurrent = 0;
+const nckhCards = document.querySelectorAll('.nckh-card');
+const nckhDots  = document.querySelectorAll('.nckh-dot-item');
+
+function nckhGo(index) {
+    if (!nckhCards[index]) return;
+    nckhCards[nckhCurrent].classList.remove('nckh-active');
+    if (nckhDots[nckhCurrent]) nckhDots[nckhCurrent].classList.remove('on');
+    nckhCurrent = index;
+    nckhCards[nckhCurrent].classList.add('nckh-active');
+    if (nckhDots[nckhCurrent]) nckhDots[nckhCurrent].classList.add('on');
+}
+function nckhNext() { nckhGo((nckhCurrent + 1) % nckhCards.length); }
+function nckhPrev() { nckhGo((nckhCurrent - 1 + nckhCards.length) % nckhCards.length); }
+
+if (nckhCards.length > 1) {
     setInterval(nckhNext, 5000);
+}
 </script>
 @endpush

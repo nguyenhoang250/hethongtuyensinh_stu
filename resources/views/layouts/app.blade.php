@@ -316,11 +316,11 @@
                 </a>
                 <ul class="dropdown">
                     <li>
-                        <a href="{{ url('/tin-tuc') }}"
+                        <a href="{{ url('/bai-viet') }}"
                            class="dd-item {{ request()->is('tin-tuc*') ? 'active' : '' }}">
                             <span class="dd-icon"><i class="fas fa-newspaper"></i></span>
                             <span class="dd-text">
-                                <span class="dd-title">Tin tức</span>
+                                <span class="dd-title">Bài viết</span>
                                 <span class="dd-desc">Thông báo & tin tức tuyển sinh</span>
                             </span>
                         </a>
@@ -454,7 +454,7 @@
                 <ul>
                     <li><a href="#">Giới thiệu về STU</a></li>
                     <li><a href="#">Cơ cấu tổ chức</a></li>
-                    <li><a href="{{ url('/tin-tuc') }}">Tin tức & thông báo</a></li>
+                    <li><a href="{{ url('/bai-viet') }}">Tin tức & thông báo</a></li>
                     <li><a href="{{ url('/su-kien') }}">Sự kiện</a></li>
                     <li><a href="#">Nghiên cứu khoa học</a></li>
                     <li><a href="#">Đối tác doanh nghiệp</a></li>
