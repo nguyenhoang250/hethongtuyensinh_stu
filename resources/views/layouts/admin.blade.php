@@ -77,11 +77,46 @@
                     </li>
 
                     <li class="nav-header">HỆ THỐNG</li>
+                    <li class="nav-header">ĐÀO TẠO</li>
 
-                   
-
-                   
-
+                    <li class="nav-item has-treeview {{ request()->routeIs('admin.khoa.*') || request()->routeIs('admin.nganh-hoc.*') || request()->routeIs('admin.to-hop-mon.*') || request()->routeIs('admin.hoc-phi.*') || request()->routeIs('admin.chuong-trinh-dao-tao.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ request()->routeIs('admin.khoa.*') || request()->routeIs('admin.nganh-hoc.*') || request()->routeIs('admin.to-hop-mon.*') || request()->routeIs('admin.hoc-phi.*') || request()->routeIs('admin.chuong-trinh-dao-tao.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-graduation-cap"></i>
+                            <p>Quản lý Đào Tạo <i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.khoa.index') }}" class="nav-link {{ request()->routeIs('admin.khoa.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Khoa</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.nganh-hoc.index') }}" class="nav-link {{ request()->routeIs('admin.nganh-hoc.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ngành Học</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.to-hop-mon.index') }}" class="nav-link {{ request()->routeIs('admin.to-hop-mon.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tổ Hợp Môn</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.hoc-phi.index') }}" class="nav-link {{ request()->routeIs('admin.hoc-phi.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Học Phí</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.chuong-trinh-dao-tao.index') }}" class="nav-link {{ request()->routeIs('admin.chuong-trinh-dao-tao.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Chương Trình ĐT</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item has-treeview {{ request()->routeIs('admin.quan-ly.*') || request()->routeIs('admin.thi-sinh.*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ request()->routeIs('admin.quan-ly.*') || request()->routeIs('admin.thi-sinh.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-users"></i>
