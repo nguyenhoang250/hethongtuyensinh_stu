@@ -14,12 +14,21 @@
         </div>
     </div>
     <div class="card-body">
+
         @if(session('success'))
             <div class="alert alert-success alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ session('success') }}
+                <i class="fas fa-check-circle mr-1"></i>{{ session('success') }}
             </div>
         @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <i class="fas fa-exclamation-circle mr-1"></i>{{ session('error') }}
+            </div>
+        @endif
+
         <table class="table table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -61,11 +70,17 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('admin.nganh-hoc.edit', $nganh->id) }}" class="btn btn-warning btn-xs">
+                        <a href="{{ route('admin.nganh-hoc.to-hop-mon', $nganh->id) }}"
+                           class="btn btn-info btn-xs">
+                            <i class="fas fa-list"></i> Tổ hợp môn
+                        </a>
+                        <a href="{{ route('admin.nganh-hoc.edit', $nganh->id) }}"
+                           class="btn btn-warning btn-xs">
                             <i class="fas fa-edit"></i> Sửa
                         </a>
-                        <form action="{{ route('admin.nganh-hoc.destroy', $nganh->id) }}" method="POST" class="d-inline"
-                            onsubmit="return confirm('Xóa ngành này?')">
+                        <form action="{{ route('admin.nganh-hoc.destroy', $nganh->id) }}"
+                              method="POST" class="d-inline"
+                              onsubmit="return confirm('Xóa ngành {{ $nganh->ten_nganh }}?')">
                             @csrf @method('DELETE')
                             <button class="btn btn-danger btn-xs">
                                 <i class="fas fa-trash"></i> Xóa
@@ -74,7 +89,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" class="text-center">Chưa có dữ liệu</td></tr>
+                <tr><td colspan="8" class="text-center text-muted py-3">Chưa có dữ liệu</td></tr>
                 @endforelse
             </tbody>
         </table>

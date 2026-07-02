@@ -14,12 +14,21 @@
         </div>
     </div>
     <div class="card-body">
+
         @if(session('success'))
             <div class="alert alert-success alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ session('success') }}
+                <i class="fas fa-check-circle mr-1"></i>{{ session('success') }}
             </div>
         @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <i class="fas fa-exclamation-circle mr-1"></i>{{ session('error') }}
+            </div>
+        @endif
+
         <table class="table table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -36,17 +45,28 @@
                 @forelse($hocPhis as $hp)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $hp->nganhHoc->ten_nganh ?? '—' }}</td>
-                    <td><span class="badge badge-info">{{ $hp->nam_hoc }}</span></td>
-                    <td>{{ number_format($hp->hoc_phi_mot_hk) }} đ</td>
-                    <td>{{ number_format($hp->hoc_phi_tin_chi) }} đ</td>
+                    <td>
+                        <span class="badge badge-info">
+                            {{ $hp->nganhHoc->ma_nganh ?? '—' }}
+                        </span>
+                        {{ $hp->nganhHoc->ten_nganh ?? '—' }}
+                    </td>
+                    <td><span class="badge badge-warning">{{ $hp->nam_hoc }}</span></td>
+                    <td class="text-right">
+                        <strong>{{ number_format($hp->hoc_phi_mot_hk) }}</strong> đ
+                    </td>
+                    <td class="text-right">
+                        {{ number_format($hp->hoc_phi_tin_chi) }} đ
+                    </td>
                     <td>{{ $hp->ghi_chu ?? '—' }}</td>
                     <td>
-                        <a href="{{ route('admin.hoc-phi.edit', $hp->id) }}" class="btn btn-warning btn-xs">
+                        <a href="{{ route('admin.hoc-phi.edit', $hp->id) }}"
+                           class="btn btn-warning btn-xs">
                             <i class="fas fa-edit"></i> Sửa
                         </a>
-                        <form action="{{ route('admin.hoc-phi.destroy', $hp->id) }}" method="POST" class="d-inline"
-                            onsubmit="return confirm('Xóa học phí này?')">
+                        <form action="{{ route('admin.hoc-phi.destroy', $hp->id) }}"
+                              method="POST" class="d-inline"
+                              onsubmit="return confirm('Xóa học phí này?')">
                             @csrf @method('DELETE')
                             <button class="btn btn-danger btn-xs">
                                 <i class="fas fa-trash"></i> Xóa
@@ -55,7 +75,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="7" class="text-center">Chưa có dữ liệu</td></tr>
+                <tr><td colspan="7" class="text-center text-muted py-3">Chưa có dữ liệu</td></tr>
                 @endforelse
             </tbody>
         </table>

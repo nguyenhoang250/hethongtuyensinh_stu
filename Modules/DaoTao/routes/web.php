@@ -5,6 +5,7 @@ use Modules\DaoTao\Http\Controllers\NganhHocController;
 use Modules\DaoTao\Http\Controllers\ToHopMonController;
 use Modules\DaoTao\Http\Controllers\HocPhiController;
 use Modules\DaoTao\Http\Controllers\ChuongTrinhDaoTaoController;
+use Modules\DaoTao\Http\Controllers\Frontend\NganhHocFrontendController;
 
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
 
@@ -30,7 +31,21 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         'destroy' => 'nganh-hoc.destroy',
     ]);
 
-    // To Hop Mon
+    // ⭐ Tổ hợp môn theo ngành (đặt TRƯỚC resource to-hop-mon)
+    Route::get('nganh-hoc/{id}/to-hop-mon', [NganhHocController::class, 'toHopMon'])
+        ->name('nganh-hoc.to-hop-mon');
+    Route::get('nganh-hoc/{id}/to-hop-mon/them', [ToHopMonController::class, 'createTheoNganh'])
+        ->name('nganh-hoc.to-hop-mon.create');
+    Route::post('nganh-hoc/{id}/to-hop-mon', [ToHopMonController::class, 'storeTheoNganh'])
+        ->name('nganh-hoc.to-hop-mon.store');
+    Route::get('nganh-hoc/{nganh_id}/to-hop-mon/{id}/sua', [ToHopMonController::class, 'editTheoNganh'])
+        ->name('nganh-hoc.to-hop-mon.edit');
+    Route::put('nganh-hoc/{nganh_id}/to-hop-mon/{id}', [ToHopMonController::class, 'updateTheoNganh'])
+        ->name('nganh-hoc.to-hop-mon.update');
+    Route::delete('nganh-hoc/{nganh_id}/to-hop-mon/{id}', [ToHopMonController::class, 'destroyTheoNganh'])
+        ->name('nganh-hoc.to-hop-mon.destroy');
+
+    // To Hop Mon (giữ nguyên cho menu riêng nếu cần)
     Route::resource('to-hop-mon', ToHopMonController::class)->names([
         'index'   => 'to-hop-mon.index',
         'create'  => 'to-hop-mon.create',
@@ -64,6 +79,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     ]);
 
 });
+
 // Frontend - thí sinh xem
-Route::get('/nganh-hoc', [\Modules\DaoTao\Http\Controllers\Frontend\NganhHocFrontendController::class, 'index'])->name('nganh-hoc.index');
-Route::get('/nganh-hoc/{id}', [\Modules\DaoTao\Http\Controllers\Frontend\NganhHocFrontendController::class, 'show'])->name('nganh-hoc.show');
+Route::get('/nganh-hoc', [NganhHocFrontendController::class, 'index'])->name('nganh-hoc.index');
+Route::get('/nganh-hoc/{id}', [NganhHocFrontendController::class, 'show'])->name('nganh-hoc.show');
