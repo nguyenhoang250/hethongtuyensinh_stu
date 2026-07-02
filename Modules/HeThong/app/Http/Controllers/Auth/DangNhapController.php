@@ -24,16 +24,18 @@ class DangNhapController extends Controller
             'email'    => $request->email,
             'password' => $request->mat_khau,
         ];
-
+    
         // Đăng nhập Thí Sinh
-        if (request()->is('thi-sinh/*')) {
+        if (request()-> is('thi-sinh/*')) {
             if (!Auth::guard('thi_sinh')->attempt($credentials, $request->boolean('nho_toi'))) {
                 return back()->withErrors(['email' => 'Email hoặc mật khẩu không đúng.'])->onlyInput('email');
-            }
+            }       
             $request->session()->regenerate();
             return redirect()->route('home');
         }
 
+
+        
         // Đăng nhập Admin / Nhân viên tư vấn (đều qua guard 'admin')
         if (!Auth::guard('admin')->attempt($credentials, $request->boolean('nho_toi'))) {
             return back()->withErrors(['email' => 'Email hoặc mật khẩu không đúng.'])->onlyInput('email');
