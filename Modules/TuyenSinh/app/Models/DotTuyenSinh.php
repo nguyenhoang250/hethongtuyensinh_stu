@@ -2,6 +2,7 @@
 namespace Modules\TuyenSinh\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class DotTuyenSinh extends Model
 {
@@ -14,5 +15,14 @@ class DotTuyenSinh extends Model
     public function chiTieu()
     {
         return $this->hasMany(ChiTieu::class, 'dot_tuyen_sinh_id');
+    }
+
+    // ⭐ Tự tính trạng thái thực tế theo ngày — dùng ở Frontend thay cho trang_thai
+    public function getTrangThaiThucTeAttribute(): string
+    {
+        if ($this->trang_thai === 'da_cong_bo') return 'da_cong_bo';
+        if (Carbon::now()->lt(Carbon::parse($this->ngay_bat_dau))) return 'chuan_bi';
+        if (Carbon::now()->gt(Carbon::parse($this->ngay_ket_thuc))) return 'da_dong';
+        return 'dang_mo';
     }
 }
