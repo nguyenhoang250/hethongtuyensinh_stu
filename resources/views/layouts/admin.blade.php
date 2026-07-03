@@ -13,8 +13,8 @@
 <div class="wrapper">
 
     @php
-        $user    = Auth::guard('admin')->user();
-        $isNVTV  = $user && $user->laNhanVienTuVan();
+        $user   = Auth::guard('admin')->user();
+        $isNVTV = $user && $user->laNhanVienTuVan();
     @endphp
 
     {{-- Navbar --}}
@@ -77,27 +77,62 @@
                     </li>
 
                     <li class="nav-header">HỆ THỐNG</li>
+                    <li class="nav-header">ĐÀO TẠO</li>
 
-                   
+                    {{-- Menu Đào Tạo — Tổ Hợp Môn, Học Phí, Chương Trình ĐT đã gộp
+                         vào modal "Chi tiết" trong trang Ngành Học, không cần menu riêng nữa --}}
+                    <li class="nav-item has-treeview
+                        {{ request()->routeIs('admin.khoa.*') ||
+                           request()->routeIs('admin.nganh-hoc.*')
+                           ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link
+                            {{ request()->routeIs('admin.khoa.*') ||
+                               request()->routeIs('admin.nganh-hoc.*')
+                               ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-graduation-cap"></i>
+                            <p>Quản lý Đào Tạo <i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.khoa.index') }}"
+                                   class="nav-link {{ request()->routeIs('admin.khoa.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Khoa</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.nganh-hoc.index') }}"
+                                   class="nav-link {{ request()->routeIs('admin.nganh-hoc.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ngành Học</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-                   
-
-                    <li class="nav-item has-treeview {{ request()->routeIs('admin.quan-ly.*') || request()->routeIs('admin.thi-sinh.*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ request()->routeIs('admin.quan-ly.*') || request()->routeIs('admin.thi-sinh.*') ? 'active' : '' }}">
+                    {{-- Menu Quản lý người dùng --}}
+                    <li class="nav-item has-treeview
+                        {{ request()->routeIs('admin.quan-ly.*') ||
+                           request()->routeIs('admin.thi-sinh.*')
+                           ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link
+                            {{ request()->routeIs('admin.quan-ly.*') ||
+                               request()->routeIs('admin.thi-sinh.*')
+                               ? 'active' : '' }}">
                             <i class="nav-icon fas fa-users"></i>
                             <p>Quản lý người dùng <i class="fas fa-angle-left right"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('admin.quan-ly.index') }}"
-                                    class="nav-link {{ request()->routeIs('admin.quan-ly.*') ? 'active' : '' }}">
+                                   class="nav-link {{ request()->routeIs('admin.quan-ly.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Admin & Nhân viên tư vấn</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.thi-sinh.index') }}"
-                                    class="nav-link {{ request()->routeIs('admin.thi-sinh.*') ? 'active' : '' }}">
+                                   class="nav-link {{ request()->routeIs('admin.thi-sinh.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Thí sinh</p>
                                 </a>
@@ -158,6 +193,17 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // ⭐ Gắn CSRF token vào MỌI request AJAX ($.ajax, $.post, $.get...) tự động.
+    // Nhờ vậy các form thêm/sửa/xóa nội tuyến (vd modal Ngành Học) không cần
+    // tự set header X-CSRF-TOKEN ở từng nơi nữa — nhưng nếu có set thì cũng
+    // không sao, không bị đè hay xung đột.
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 @stack('scripts')
