@@ -133,4 +133,77 @@ class ToHopMonController extends Controller
         return redirect()->route('admin.nganh-hoc.to-hop-mon', $nganhHoc->id)
             ->with('success', 'Xóa tổ hợp môn thành công!');
     }
+
+    // ===== ⭐ AJAX CRUD dùng trong modal "Xem chi tiết" =====
+
+    public function apiStore(Request $request, $nganhId)
+    {
+        $nganhHoc = NganhHoc::findOrFail($nganhId);
+
+        $data = $request->validate([
+            'ma_to_hop'  => 'required|max:10',
+            'ten_to_hop' => 'required|max:100',
+        ], [
+            'ma_to_hop.required'  => 'Vui lòng nhập mã tổ hợp.',
+            'ten_to_hop.required' => 'Vui lòng nhập môn thi.',
+        ]);
+
+        $item = ToHopMon::create([
+            'nganh_hoc_id' => $nganhHoc->id,
+            'ma_to_hop'    => $data['ma_to_hop'],
+            'ten_to_hop'   => $data['ten_to_hop'],
+            'is_chinh'     => $request->boolean('is_chinh'),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Thêm tổ hợp môn thành công!',
+            'item'    => [
+                'id'         => $item->id,
+                'ma_to_hop'  => $item->ma_to_hop,
+                'ten_to_hop' => $item->ten_to_hop,
+                'is_chinh'   => (bool) $item->is_chinh,
+            ],
+        ]);
+    }
+
+    public function apiUpdate(Request $request, $id)
+    {
+        $item = ToHopMon::findOrFail($id);
+
+        $data = $request->validate([
+            'ma_to_hop'  => 'required|max:10',
+            'ten_to_hop' => 'required|max:100',
+        ], [
+            'ma_to_hop.required'  => 'Vui lòng nhập mã tổ hợp.',
+            'ten_to_hop.required' => 'Vui lòng nhập môn thi.',
+        ]);
+
+        $item->update([
+            'ma_to_hop'  => $data['ma_to_hop'],
+            'ten_to_hop' => $data['ten_to_hop'],
+            'is_chinh'   => $request->boolean('is_chinh'),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cập nhật tổ hợp môn thành công!',
+            'item'    => [
+                'id'         => $item->id,
+                'ma_to_hop'  => $item->ma_to_hop,
+                'ten_to_hop' => $item->ten_to_hop,
+                'is_chinh'   => (bool) $item->is_chinh,
+            ],
+        ]);
+    }
+
+    public function apiDestroy($id)
+    {
+        ToHopMon::findOrFail($id)->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Xóa tổ hợp môn thành công!',
+        ]);
+    }
 }

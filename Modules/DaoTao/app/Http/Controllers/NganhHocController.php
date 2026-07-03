@@ -32,12 +32,12 @@ class NganhHocController extends Controller
             'mo_ta'             => 'nullable|string',
             'chuan_dau_ra'      => 'nullable|string',
         ], [
-            'khoa_id.required'          => 'Vui lòng chọn khoa.',
-            'khoa_id.exists'            => 'Khoa không hợp lệ.',
-            'ma_nganh.required'         => 'Vui lòng nhập mã ngành.',
-            'ma_nganh.unique'           => 'Mã ngành này đã tồn tại.',
-            'ten_nganh.required'        => 'Vui lòng nhập tên ngành.',
-            'trinh_do.required'         => 'Vui lòng chọn trình độ.',
+            'khoa_id.required'           => 'Vui lòng chọn khoa.',
+            'khoa_id.exists'             => 'Khoa không hợp lệ.',
+            'ma_nganh.required'          => 'Vui lòng nhập mã ngành.',
+            'ma_nganh.unique'            => 'Mã ngành này đã tồn tại.',
+            'ten_nganh.required'         => 'Vui lòng nhập tên ngành.',
+            'trinh_do.required'          => 'Vui lòng chọn trình độ.',
             'thoi_gian_dao_tao.required' => 'Vui lòng nhập thời gian đào tạo.',
         ]);
 
@@ -55,6 +55,58 @@ class NganhHocController extends Controller
 
         return redirect()->route('admin.nganh-hoc.index')
             ->with('success', 'Thêm ngành học thành công!');
+    }
+
+    /**
+     * Trả JSON cho modal "Xem chi tiết" — gọi qua AJAX
+     */
+    public function show($id)
+    {
+        $nganh = NganhHoc::with([
+            'khoa',
+            'toHopMon',
+            'hocPhi',
+            'chuongTrinhDaoTao',
+        ])->findOrFail($id);
+
+        return response()->json([
+            'id'           => $nganh->id,
+            'ma_nganh'     => $nganh->ma_nganh,
+            'ten_nganh'    => $nganh->ten_nganh,
+            'ten_nganh_en' => $nganh->ten_nganh_en,
+            'khoa'         => $nganh->khoa?->ten_khoa ?? '—',
+            'trinh_do'     => $nganh->trinh_do === 'dai_hoc' ? 'Đại học' : 'Liên thông',
+            'thoi_gian'    => $nganh->thoi_gian_dao_tao . ' năm',
+            'mo_ta'        => $nganh->mo_ta,
+            'chuan_dau_ra' => $nganh->chuan_dau_ra,
+            'trang_thai'   => $nganh->trang_thai,
+
+            'to_hop_mons' => $nganh->toHopMon->map(fn($t) => [
+                'id'         => $t->id,
+                'ma_to_hop'  => $t->ma_to_hop,
+                'ten_to_hop' => $t->ten_to_hop,
+                'is_chinh'   => (bool) $t->is_chinh,
+            ]),
+
+            'hoc_phis' => $nganh->hocPhi->map(fn($h) => [
+                'id'                  => $h->id,
+                'nam_hoc'             => $h->nam_hoc,
+                'hoc_phi_mot_hk'      => $h->hoc_phi_mot_hk,
+                'hoc_phi_tin_chi'     => $h->hoc_phi_tin_chi,
+                'hoc_phi_mot_hk_fmt'  => number_format($h->hoc_phi_mot_hk, 0, ',', '.'),
+                'hoc_phi_tin_chi_fmt' => number_format($h->hoc_phi_tin_chi, 0, ',', '.'),
+                'ghi_chu'             => $h->ghi_chu,
+            ]),
+
+            'chuong_trinh_dao_taos' => $nganh->chuongTrinhDaoTao->map(fn($c) => [
+                'id'           => $c->id,
+                'nam_ban_hanh' => $c->nam_ban_hanh,
+                'tong_tin_chi' => $c->tong_tin_chi,
+                'ten_file'     => $c->ten_file,
+                'url_file'     => $c->duong_dan_file ? asset('storage/' . $c->duong_dan_file) : null,
+                'is_hien_thi'  => (bool) $c->is_hien_thi,
+            ]),
+        ]);
     }
 
     public function edit($id)
@@ -77,12 +129,11 @@ class NganhHocController extends Controller
             'mo_ta'             => 'nullable|string',
             'chuan_dau_ra'      => 'nullable|string',
         ], [
-            'khoa_id.required'          => 'Vui lòng chọn khoa.',
-            'khoa_id.exists'            => 'Khoa không hợp lệ.',
-            'ma_nganh.required'         => 'Vui lòng nhập mã ngành.',
-            'ma_nganh.unique'           => 'Mã ngành này đã tồn tại.',
-            'ten_nganh.required'        => 'Vui lòng nhập tên ngành.',
-            'trinh_do.required'         => 'Vui lòng chọn trình độ.',
+            'khoa_id.required'           => 'Vui lòng chọn khoa.',
+            'ma_nganh.required'          => 'Vui lòng nhập mã ngành.',
+            'ma_nganh.unique'            => 'Mã ngành này đã tồn tại.',
+            'ten_nganh.required'         => 'Vui lòng nhập tên ngành.',
+            'trinh_do.required'          => 'Vui lòng chọn trình độ.',
             'thoi_gian_dao_tao.required' => 'Vui lòng nhập thời gian đào tạo.',
         ]);
 
@@ -106,27 +157,25 @@ class NganhHocController extends Controller
     {
         $nganhHoc = NganhHoc::findOrFail($id);
 
-        // 🔴 Kiểm tra ràng buộc trước khi xóa
         if ($nganhHoc->toHopMon()->count() > 0) {
             return redirect()->route('admin.nganh-hoc.index')
                 ->with('error', 'Không thể xóa ngành đang có ' . $nganhHoc->toHopMon()->count() . ' tổ hợp môn!');
         }
-
         if ($nganhHoc->hocPhi()->count() > 0) {
             return redirect()->route('admin.nganh-hoc.index')
                 ->with('error', 'Không thể xóa ngành đang có dữ liệu học phí!');
         }
         if ($nganhHoc->chuongTrinhDaoTao()->count() > 0) {
-        return redirect()->route('admin.nganh-hoc.index')
-            ->with('error', 'Không thể xóa ngành đang có chương trình đào tạo!');
-    }
+            return redirect()->route('admin.nganh-hoc.index')
+                ->with('error', 'Không thể xóa ngành đang có chương trình đào tạo!');
+        }
 
         $nganhHoc->delete();
         return redirect()->route('admin.nganh-hoc.index')
             ->with('success', 'Xóa ngành học thành công!');
     }
 
-    // ⭐ Xem tổ hợp môn theo ngành
+    // Giữ lại nếu cần dùng trang riêng
     public function toHopMon($id)
     {
         $nganhHoc  = NganhHoc::with('toHopMon', 'khoa')->findOrFail($id);

@@ -79,18 +79,15 @@
                     <li class="nav-header">HỆ THỐNG</li>
                     <li class="nav-header">ĐÀO TẠO</li>
 
-                    {{-- Menu Đào Tạo (bỏ Tổ Hợp Môn khỏi sidebar) --}}
+                    {{-- Menu Đào Tạo — Tổ Hợp Môn, Học Phí, Chương Trình ĐT đã gộp
+                         vào modal "Chi tiết" trong trang Ngành Học, không cần menu riêng nữa --}}
                     <li class="nav-item has-treeview
                         {{ request()->routeIs('admin.khoa.*') ||
-                           request()->routeIs('admin.nganh-hoc.*') ||
-                           request()->routeIs('admin.hoc-phi.*') ||
-                           request()->routeIs('admin.chuong-trinh-dao-tao.*')
+                           request()->routeIs('admin.nganh-hoc.*')
                            ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link
                             {{ request()->routeIs('admin.khoa.*') ||
-                               request()->routeIs('admin.nganh-hoc.*') ||
-                               request()->routeIs('admin.hoc-phi.*') ||
-                               request()->routeIs('admin.chuong-trinh-dao-tao.*')
+                               request()->routeIs('admin.nganh-hoc.*')
                                ? 'active' : '' }}">
                             <i class="nav-icon fas fa-graduation-cap"></i>
                             <p>Quản lý Đào Tạo <i class="fas fa-angle-left right"></i></p>
@@ -108,21 +105,6 @@
                                    class="nav-link {{ request()->routeIs('admin.nganh-hoc.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Ngành Học</p>
-                                </a>
-                            </li>
-                            {{-- Tổ Hợp Môn đã gom vào nút trong trang Ngành Học --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.hoc-phi.index') }}"
-                                   class="nav-link {{ request()->routeIs('admin.hoc-phi.*') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Học Phí</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.chuong-trinh-dao-tao.index') }}"
-                                   class="nav-link {{ request()->routeIs('admin.chuong-trinh-dao-tao.*') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Chương Trình ĐT</p>
                                 </a>
                             </li>
                         </ul>
@@ -211,6 +193,17 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // ⭐ Gắn CSRF token vào MỌI request AJAX ($.ajax, $.post, $.get...) tự động.
+    // Nhờ vậy các form thêm/sửa/xóa nội tuyến (vd modal Ngành Học) không cần
+    // tự set header X-CSRF-TOKEN ở từng nơi nữa — nhưng nếu có set thì cũng
+    // không sao, không bị đè hay xung đột.
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 @stack('scripts')
